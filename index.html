@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NAPGAME247 - Hệ Thống Nạp Game Giá Rẻ & Tự Động</title>
+  <title>NAPGAME247 - Hệ Thống Nạp Game Tự Động 24/7</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -40,7 +40,7 @@
         <div class="relative z-10 max-w-2xl space-y-4">
           <span class="px-3 py-1 bg-slate-950/20 text-slate-950 font-bold text-xs rounded-full uppercase tracking-wider">🔥 Giảm Giá Tới 20% Hôm Nay</span>
           <h1 class="text-3xl md:text-5xl font-black leading-tight">NẠP GAME GIÁ RẺ<br>TỰ ĐỘNG 24/7 UY TÍN</h1>
-          <p class="text-slate-900 font-medium text-sm md:text-base">Hệ thống nạp Kim Cương, Quân Huy tự động chỉ trong 30 giây. Chiết khấu cao nhất thị trường.</p>
+          <p class="text-slate-900 font-medium text-sm md:text-base">Hệ thống nạp Kim Cương, Quân Huy, Đá Sáng Thế tự động chỉ trong 30 giây.</p>
           <div class="flex flex-wrap gap-3 pt-2">
             <button onclick="switchPage('shop')" class="px-6 py-3 bg-slate-950 text-amber-400 font-bold rounded-xl hover:bg-slate-900 transition shadow-lg"><i class="fa-solid fa-bolt mr-2"></i>NẠP GAME NGAY</button>
             <button onclick="switchPage('deposit')" class="px-6 py-3 bg-white/20 hover:bg-white/30 text-slate-950 font-bold rounded-xl transition border border-slate-950/20"><i class="fa-solid fa-wallet mr-2"></i>NẠP VÍ SỐ DƯ</button>
@@ -53,13 +53,68 @@
         <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0"><i class="fa-solid fa-circle-check"></i> Vừa Nạp</span>
         <marquee class="text-xs text-slate-300 font-mono">
           <span class="mx-4 text-amber-400">User ***8821 vừa nạp 580 Kim Cương Free Fire</span> | 
-          <span class="mx-4 text-amber-400">User ***0192 vừa nạp 280 Quân Huy Liên Quân</span> | 
-          <span class="mx-4 text-emerald-400">User ***3321 vừa nạp +100.000đ vào Ví</span>
+          <span class="mx-4 text-amber-400">User ***0192 vừa nạp 425 Quân Huy Liên Quân</span> | 
+          <span class="mx-4 text-emerald-400">User ***3321 vừa nạp Thẻ Tháng Genshin Impact</span>
         </marquee>
       </div>
     </div>
 
-    <!-- 2. TRANG QUẢN LÝ TÀI KHOẢN & SỐ DƯ (PROFILE PAGE) -->
+    <!-- 2. TAB SHOP NẠP GAME (ĐÃ NÂNG CẤP ĐA DẠNG) -->
+    <div id="page-shop" class="hidden space-y-8">
+      <!-- Top Banner -->
+      <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 p-6 rounded-2xl border border-amber-500/20 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Cửa Hàng Nạp Game Tự Động</h2>
+          <p class="text-sm text-slate-400">Chọn game cần nạp và gói tương ứng bên dưới. Hệ thống xử lý tức thì.</p>
+        </div>
+        <button onclick="switchPage('deposit')" class="px-4 py-2.5 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl hover:bg-amber-400 transition shadow-lg shadow-amber-500/10 flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-plus-circle"></i> Nạp Thêm Số Dư Ví
+        </button>
+      </div>
+
+      <form onsubmit="handleGameOrder(event)" class="space-y-8">
+        <!-- BƯỚC 1: CÁC Ô CHỌN GAME -->
+        <div>
+          <label class="block text-base font-bold text-slate-200 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">1</span>
+            Chọn Game Cần Nạp
+          </label>
+          <div id="game-selector-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Game cards sẽ được render tự động qua JS -->
+          </div>
+        </div>
+
+        <!-- BƯỚC 2: NHẬP ID GAME -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <label id="game-id-label" class="block text-sm font-bold text-amber-400 mb-2">2. ID Game (Player ID)</label>
+          <input type="text" id="shop-gameid" required placeholder="Nhập ID tài khoản game..." class="w-full p-3.5 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400 text-sm font-mono text-white transition">
+        </div>
+
+        <!-- BƯỚC 3: BẢNG GÓI NẠP TƯƠNG ỨNG -->
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <label class="text-base font-bold text-slate-200 flex items-center gap-2">
+              <span class="w-6 h-6 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">3</span>
+              Chọn Gói Vật Phẩm
+            </label>
+            <span id="selected-game-title" class="text-xs text-amber-400 font-bold uppercase tracking-wider"></span>
+          </div>
+          
+          <div id="packages-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <!-- Gói nạp tương ứng sẽ render tự động khi click game -->
+          </div>
+        </div>
+
+        <!-- NÚT THANH TOÁN -->
+        <div class="pt-4">
+          <button type="submit" class="w-full py-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-2xl transition text-base shadow-xl shadow-amber-500/10 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-bolt"></i> THANH TOÁN BẰNG SỐ DƯ VÍ
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 3. TRANG QUẢN LÝ TÀI KHOẢN (PROFILE PAGE) -->
     <div id="page-profile" class="hidden space-y-6 max-w-4xl mx-auto">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
@@ -77,7 +132,6 @@
           </button>
         </div>
 
-        <!-- Khối Thống Kê Số Dư -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <div class="bg-gradient-to-br from-emerald-950/40 to-slate-900 border border-emerald-500/30 p-5 rounded-2xl">
             <p class="text-xs text-slate-400 font-medium mb-1">💳 Số Dư Ví Hiện Có</p>
@@ -98,7 +152,6 @@
           </div>
         </div>
 
-        <!-- Nút Hành Động Nhanh -->
         <div class="flex flex-wrap gap-4 mt-8 pt-6 border-t border-slate-800">
           <button onclick="switchPage('deposit')" class="flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus-circle"></i> Nạp Tiền Vào Ví
@@ -140,64 +193,6 @@
         </div>
         <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition">TẠO TÀI KHOẢN</button>
       </form>
-    </div>
-
-    <!-- TAB SHOP NẠP GAME -->
-    <div id="page-shop" class="hidden space-y-6">
-      <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 p-6 rounded-2xl border border-amber-500/20 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-          <h2 class="text-xl font-bold text-amber-400">🔥 Shop Nạp Game Trực Tuyến</h2>
-          <p class="text-sm text-slate-400">Thanh toán tự động bằng số dư ví tài khoản.</p>
-        </div>
-        <button onclick="switchPage('deposit')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl hover:bg-amber-400 transition"><i class="fa-solid fa-plus-circle mr-1"></i>Nạp Thêm Tiền Ví</button>
-      </div>
-
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <form onsubmit="handleGameOrder(event)" class="space-y-5">
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">1. Chọn Game</label>
-            <select id="shop-game" class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400 text-sm">
-              <option value="Free Fire">Free Fire</option>
-              <option value="Liên Quân Mobile">Liên Quân Mobile</option>
-              <option value="Genshin Impact">Genshin Impact</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">2. ID Game (Player ID)</label>
-            <input type="text" id="shop-gameid" required placeholder="Nhập ID tài khoản game..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400 text-sm">
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">3. Chọn Gói Vật Phẩm</label>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <label class="cursor-pointer border border-slate-700 bg-slate-800/50 p-4 rounded-xl flex flex-col justify-between hover:border-amber-400 transition">
-                <input type="radio" name="pkg" value="111 Kim Cương|20000" checked class="hidden peer">
-                <div class="peer-checked:text-amber-400">
-                  <p class="font-bold">111 Kim Cương / Quân Huy</p>
-                  <p class="text-xs text-slate-400 mt-1">Giá: 20.000đ</p>
-                </div>
-              </label>
-              <label class="cursor-pointer border border-slate-700 bg-slate-800/50 p-4 rounded-xl flex flex-col justify-between hover:border-amber-400 transition">
-                <input type="radio" name="pkg" value="280 Kim Cương|50000" class="hidden peer">
-                <div class="peer-checked:text-amber-400">
-                  <p class="font-bold">280 Kim Cương / Quân Huy</p>
-                  <p class="text-xs text-slate-400 mt-1">Giá: 50.000đ</p>
-                </div>
-              </label>
-              <label class="cursor-pointer border border-slate-700 bg-slate-800/50 p-4 rounded-xl flex flex-col justify-between hover:border-amber-400 transition">
-                <input type="radio" name="pkg" value="580 Kim Cương|100000" class="hidden peer">
-                <div class="peer-checked:text-amber-400">
-                  <p class="font-bold">580 Kim Cương / Quân Huy</p>
-                  <p class="text-xs text-slate-400 mt-1">Giá: 100.000đ</p>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition text-base shadow-lg shadow-amber-500/10">THANH TOÁN BẰNG SỐ DƯ VÍ</button>
-        </form>
-      </div>
     </div>
 
     <!-- TAB NẠP VÍ -->
@@ -317,6 +312,77 @@
   </main>
 
   <script>
+    // DANH SÁCH DỮ LIỆU GAME VÀ CÁC GÓI NẠP ĐA DẠNG
+    const gamesData = [
+      {
+        id: 'ff',
+        name: 'Free Fire',
+        icon: '🔥',
+        badge: '-10% HOT',
+        badgeColor: 'bg-red-500/20 text-red-400',
+        idLabel: '2. ID Nhân Vật Free Fire (Player ID)',
+        idPlaceholder: 'Nhập ID Free Fire (Ví dụ: 123456789)...',
+        packages: [
+          { name: '111 Kim Cương', price: 20000, desc: 'Nạp trực tiếp qua Player ID' },
+          { name: '280 Kim Cương', price: 50000, desc: 'Thưởng +10% Kim Cương' },
+          { name: '580 Kim Cương', price: 100000, desc: 'Thưởng +15% Kim Cương' },
+          { name: '1.190 Kim Cương', price: 200000, desc: 'Gói nạp phổ biến' },
+          { name: 'Thẻ Tuần Free Fire', price: 50000, desc: 'Nhận Kim Cương mỗi ngày' },
+          { name: 'Thẻ Tháng Free Fire', price: 150000, desc: 'Tiết kiệm đến 500%' }
+        ]
+      },
+      {
+        id: 'lq',
+        name: 'Liên Quân Mobile',
+        icon: '⚔️',
+        badge: 'Khuyên Dùng',
+        badgeColor: 'bg-amber-500/20 text-amber-400',
+        idLabel: '2. Tên Tài Khoản / OpenID Liên Quân',
+        idPlaceholder: 'Nhập OpenID hoặc Tên Nhân Vật...',
+        packages: [
+          { name: '84 Quân Huy', price: 20000, desc: 'Xử lý tự động 30s' },
+          { name: '210 Quân Huy', price: 50000, desc: 'Tặng thêm 10 QH' },
+          { name: '425 Quân Huy', price: 100000, desc: 'Gói Bestseller' },
+          { name: '1.070 Quân Huy', price: 250000, desc: 'Sở hữu trang phục SS' },
+          { name: 'Sổ Sứ Mệnh Vượt Cấp', price: 100000, desc: 'Mở khóa toàn bộ quà SSM' }
+        ]
+      },
+      {
+        id: 'genshin',
+        name: 'Genshin Impact',
+        icon: '✨',
+        badge: 'Tự Động 24/7',
+        badgeColor: 'bg-emerald-500/20 text-emerald-400',
+        idLabel: '2. UID & Server Genshin Impact',
+        idPlaceholder: 'Ví dụ: 800123456 - Server Asia...',
+        packages: [
+          { name: 'Không Khí Chúc Phúc (Thẻ Tháng)', price: 109000, desc: '300 Đá + 90 Đá/ngày' },
+          { name: '300 + 30 Đá Sáng Thế', price: 109000, desc: 'x2 Lần đầu nạp' },
+          { name: '980 + 110 Đá Sáng Thế', price: 329000, desc: 'x2 Lần đầu nạp' },
+          { name: '1.980 + 260 Đá Sáng Thế', price: 699000, desc: 'x2 Lần đầu nạp' },
+          { name: 'Nhật Ký Hành Trình (Bản Tiêu Chuẩn)', price: 219000, desc: 'Mở khóa Vũ khí 4 sao' }
+        ]
+      },
+      {
+        id: 'roblox',
+        name: 'Roblox (Robux)',
+        icon: '🟦',
+        badge: 'Mới',
+        badgeColor: 'bg-blue-500/20 text-blue-400',
+        idLabel: '2. Tên Tài Khoản Roblox (Username)',
+        idPlaceholder: 'Nhập Username Roblox của bạn...',
+        packages: [
+          { name: '80 Robux', price: 25000, desc: 'Nạp sạch 100% qua Gamepass' },
+          { name: '400 Robux', price: 120000, desc: 'Giá siêu ưu đãi' },
+          { name: '800 Robux', price: 240000, desc: 'Nhận Robux trong 1 phút' },
+          { name: '1.700 Robux', price: 480000, desc: 'Gói VIP Roblox' }
+        ]
+      }
+    ];
+
+    let selectedGame = gamesData[0];
+    let selectedPackage = gamesData[0].packages[0];
+
     let users = JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
     let orders = JSON.parse(localStorage.getItem('orders')) || [];
     let deposits = JSON.parse(localStorage.getItem('deposits')) || [];
@@ -352,9 +418,72 @@
         }
       });
 
+      if (page === 'shop') renderShopUI();
       if (page === 'profile') renderProfile();
       if (page === 'history') renderHistory();
       if (page === 'admin') renderAdmin();
+    }
+
+    // RENDER SHOP & CÁC Ô CHỌN GAME
+    function renderShopUI() {
+      // 1. Render danh sách ô chọn game
+      const gameGrid = document.getElementById('game-selector-grid');
+      gameGrid.innerHTML = gamesData.map(g => {
+        const isSelected = g.id === selectedGame.id;
+        return `
+          <div onclick="selectGame('${g.id}')" 
+               class="cursor-pointer bg-slate-900 border ${isSelected ? 'border-amber-500 ring-2 ring-amber-500/20 bg-amber-500/5' : 'border-slate-800 hover:border-slate-700'} rounded-2xl p-4 transition duration-200 flex flex-col justify-between relative group">
+            <div class="flex justify-between items-start mb-3">
+              <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-2xl">${g.icon}</div>
+              <span class="px-2 py-0.5 ${g.badgeColor} text-[10px] font-bold rounded-full">${g.badge}</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-white text-base ${isSelected ? 'text-amber-400' : 'group-hover:text-amber-400'} transition">${g.name}</h4>
+              <p class="text-xs text-slate-500 mt-0.5">${g.packages.length} gói nạp có sẵn</p>
+            </div>
+            ${isSelected ? '<div class="absolute -top-1.5 -right-1.5 bg-amber-500 text-slate-950 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shadow"><i class="fa-solid fa-check"></i></div>' : ''}
+          </div>
+        `;
+      }).join('');
+
+      // 2. Cập nhật nhãn ID Game
+      document.getElementById('game-id-label').innerText = selectedGame.idLabel;
+      document.getElementById('shop-gameid').placeholder = selectedGame.idPlaceholder;
+      document.getElementById('selected-game-title').innerText = `Gói Nạp: ${selectedGame.name}`;
+
+      // 3. Render danh sách gói nạp của game đang được chọn
+      renderPackages();
+    }
+
+    function selectGame(gameId) {
+      selectedGame = gamesData.find(g => g.id === gameId);
+      selectedPackage = selectedGame.packages[0];
+      renderShopUI();
+    }
+
+    function renderPackages() {
+      const packageGrid = document.getElementById('packages-grid');
+      packageGrid.innerHTML = selectedGame.packages.map((pkg, idx) => {
+        const isSelected = pkg.name === selectedPackage.name;
+        return `
+          <label onclick="selectPackage(${idx})" class="cursor-pointer border ${isSelected ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900 hover:border-slate-700'} p-4 rounded-2xl flex flex-col justify-between transition relative">
+            <input type="radio" name="pkg" ${isSelected ? 'checked' : ''} class="hidden">
+            <div>
+              <p class="font-bold text-white text-sm ${isSelected ? 'text-amber-400' : ''}">${pkg.name}</p>
+              <p class="text-xs text-slate-400 mt-1">${pkg.desc}</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex justify-between items-center">
+              <span class="text-xs text-slate-500">Giá:</span>
+              <span class="text-base font-bold text-emerald-400 font-mono">${pkg.price.toLocaleString()}đ</span>
+            </div>
+          </label>
+        `;
+      }).join('');
+    }
+
+    function selectPackage(idx) {
+      selectedPackage = selectedGame.packages[idx];
+      renderPackages();
     }
 
     function switchAuthTab(tab) {
@@ -425,33 +554,31 @@
 
     function handleGameOrder(e) {
       e.preventDefault();
-      const game = document.getElementById('shop-game').value;
       const gameId = document.getElementById('shop-gameid').value;
-      const selectedPkg = document.querySelector('input[name="pkg"]:checked').value.split('|');
-      const pkgName = selectedPkg[0];
-      const price = parseInt(selectedPkg[1]);
-
       const me = users.find(u => u.username === currentUser.username);
-      if (me.balance < price) return alert('Số dư ví không đủ! Vui lòng nạp thêm vào ví.');
 
-      me.balance -= price;
+      if (me.balance < selectedPackage.price) {
+        return alert('Số dư ví không đủ! Vui lòng vào mục "Nạp Ví" để cộng thêm tiền.');
+      }
+
+      me.balance -= selectedPackage.price;
       currentUser.balance = me.balance;
 
       orders.push({
         id: Date.now(),
         user: currentUser.username,
-        game,
-        gameId,
-        package: pkgName,
-        price,
+        game: selectedGame.name,
+        gameId: gameId,
+        package: selectedPackage.name,
+        price: selectedPackage.price,
         status: 'Chờ xử lý',
         date: new Date().toLocaleString('vi-VN')
       });
 
       saveData();
       updateUI();
-      alert('Tạo đơn nạp thành công!');
-      e.target.reset();
+      alert(`Đã gửi đơn nạp ${selectedPackage.name} cho ID ${gameId}!`);
+      document.getElementById('shop-gameid').value = '';
     }
 
     function handleDepositRequest(e) {
@@ -484,7 +611,7 @@
           <td class="p-3 font-semibold">${o.game}</td>
           <td class="p-3 font-mono text-amber-300">${o.gameId}</td>
           <td class="p-3">${o.package}</td>
-          <td class="p-3 font-bold">${o.price.toLocaleString()}đ</td>
+          <td class="p-3 font-bold text-emerald-400">${o.price.toLocaleString()}đ</td>
           <td class="p-3"><span class="px-2 py-1 rounded text-xs ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : 'bg-amber-900/80 text-amber-300'}">${o.status}</span></td>
         </tr>
       `).join('') : '<tr><td colspan="6" class="p-4 text-center text-slate-500">Chưa có lịch sử nạp game</td></tr>';
