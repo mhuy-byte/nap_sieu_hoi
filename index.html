@@ -22,9 +22,11 @@
         <button onclick="switchPage('home')" id="nav-home" class="px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition"><i class="fa-solid fa-house mr-1.5"></i>Trang Chủ</button>
         <button onclick="switchPage('shop')" id="nav-shop" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-gamepad mr-1.5"></i>Nạp Game</button>
         <button onclick="switchPage('deposit')" id="nav-deposit" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-wallet mr-1.5"></i>Nạp Ví</button>
+        <button onclick="switchPage('profile')" id="nav-profile" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-user-gear mr-1.5"></i>Tài Khoản</button>
         <button onclick="switchPage('history')" id="nav-history" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-clock-rotate-left mr-1.5"></i>Lịch Sử</button>
       </div>
 
+      <!-- User Box trên Menu -->
       <div id="nav-user" class="flex items-center gap-3"></div>
     </div>
   </nav>
@@ -32,25 +34,21 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-6xl mx-auto p-4 flex-1 w-full">
 
-    <!-- 1. TRANG CHỦ QUẢNG CÁO (HOME PAGE) -->
+    <!-- 1. TRANG CHỦ QUẢNG CÁO -->
     <div id="page-home" class="space-y-10">
-      
-      <!-- HERO BANNER -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-500 p-8 md:p-12 text-slate-950 shadow-2xl shadow-amber-500/10">
         <div class="relative z-10 max-w-2xl space-y-4">
           <span class="px-3 py-1 bg-slate-950/20 text-slate-950 font-bold text-xs rounded-full uppercase tracking-wider">🔥 Giảm Giá Tới 20% Hôm Nay</span>
           <h1 class="text-3xl md:text-5xl font-black leading-tight">NẠP GAME GIÁ RẺ<br>TỰ ĐỘNG 24/7 UY TÍN</h1>
-          <p class="text-slate-900 font-medium text-sm md:text-base">Hệ thống nạp Kim Cương, Quân Huy tự động chỉ trong 30 giây. Chiết khấu cao nhất thị trường, bảo mật thông tin tuyệt đối.</p>
+          <p class="text-slate-900 font-medium text-sm md:text-base">Hệ thống nạp Kim Cương, Quân Huy tự động chỉ trong 30 giây. Chiết khấu cao nhất thị trường.</p>
           <div class="flex flex-wrap gap-3 pt-2">
             <button onclick="switchPage('shop')" class="px-6 py-3 bg-slate-950 text-amber-400 font-bold rounded-xl hover:bg-slate-900 transition shadow-lg"><i class="fa-solid fa-bolt mr-2"></i>NẠP GAME NGAY</button>
             <button onclick="switchPage('deposit')" class="px-6 py-3 bg-white/20 hover:bg-white/30 text-slate-950 font-bold rounded-xl transition border border-slate-950/20"><i class="fa-solid fa-wallet mr-2"></i>NẠP VÍ SỐ DƯ</button>
           </div>
         </div>
-        <!-- Họa tiết trang trí -->
-        <div class="absolute -right-10 -bottom-10 text-slate-950/10 text-9xl font-black pointer-events-none select-none">🎮</div>
       </div>
 
-      <!-- DÒNG THÔNG BÁO ĐƠN HÀNG VỪA THÀNH CÔNG (LIVE FEED) -->
+      <!-- DÒNG THÔNG BÁO VỪA NẠP -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center gap-3 overflow-hidden">
         <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0"><i class="fa-solid fa-circle-check"></i> Vừa Nạp</span>
         <marquee class="text-xs text-slate-300 font-mono">
@@ -59,93 +57,61 @@
           <span class="mx-4 text-emerald-400">User ***3321 vừa nạp +100.000đ vào Ví</span>
         </marquee>
       </div>
-
-      <!-- DANH MỤC GAME NỔI BẬT -->
-      <div>
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-fire text-amber-500"></i> Danh Mục Game Hot</h2>
-          <button onclick="switchPage('shop')" class="text-xs text-amber-400 hover:underline">Xem tất cả <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          
-          <!-- Game Card 1 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
-            <div>
-              <div class="flex justify-between items-start mb-4">
-                <div class="w-14 h-14 bg-amber-500/10 rounded-2xl border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold">🔥</div>
-                <span class="px-2.5 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded-full">-10% Hot</span>
-              </div>
-              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Free Fire</h3>
-              <p class="text-xs text-slate-400 mt-1">Nạp Kim Cương qua Player ID trực tiếp vào tài khoản.</p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-              <span class="text-xs text-slate-500">Từ 20.000đ</span>
-              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
-            </div>
-          </div>
-
-          <!-- Game Card 2 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
-            <div>
-              <div class="flex justify-between items-start mb-4">
-                <div class="w-14 h-14 bg-blue-500/10 rounded-2xl border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl font-bold">⚔️</div>
-                <span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full">Khuyên Dùng</span>
-              </div>
-              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Liên Quân Mobile</h3>
-              <p class="text-xs text-slate-400 mt-1">Nạp Quân Huy an toàn, bảo hành tài khoản 100%.</p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-              <span class="text-xs text-slate-500">Từ 20.000đ</span>
-              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
-            </div>
-          </div>
-
-          <!-- Game Card 3 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
-            <div>
-              <div class="flex justify-between items-start mb-4">
-                <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl font-bold">✨</div>
-                <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full">Tự Động</span>
-              </div>
-              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Genshin Impact</h3>
-              <p class="text-xs text-slate-400 mt-1">Nạp Đá Sáng Thế / Thẻ Tháng giá tốt nhất thị trường.</p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-              <span class="text-xs text-slate-500">Từ 50.000đ</span>
-              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- TẠI SAO CHỌN CHÚNG TÔI -->
-      <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-8">
-        <h2 class="text-xl font-bold text-center text-amber-400 mb-8">💡 Tại Sao Nên Chọn NAPGAME247?</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <div class="space-y-2">
-            <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-bolt"></i></div>
-            <h4 class="font-bold text-white">Nạp Siêu Tốc</h4>
-            <p class="text-xs text-slate-400">Xử lý đơn hàng hoàn toàn tự động trong 30 giây đến 3 phút.</p>
-          </div>
-          <div class="space-y-2">
-            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-shield-halved"></i></div>
-            <h4 class="font-bold text-white">An Toàn 100%</h4>
-            <p class="text-xs text-slate-400">Nạp qua ID game chính chủ, không yêu cầu mật khẩu tài khoản.</p>
-          </div>
-          <div class="space-y-2">
-            <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-headset"></i></div>
-            <h4 class="font-bold text-white">Hỗ Trợ 24/7</h4>
-            <p class="text-xs text-slate-400">Đội ngũ kỹ thuật hỗ trợ đối soát đơn hàng mọi lúc mọi nơi.</p>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- TAB 0: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ) -->
-    <div id="page-auth" class="hidden max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl my-8">
+    <!-- 2. TRANG QUẢN LÝ TÀI KHOẢN & SỐ DƯ (PROFILE PAGE) -->
+    <div id="page-profile" class="hidden space-y-6 max-w-4xl mx-auto">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl font-black text-slate-950 shadow-lg">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div>
+              <h2 id="profile-username" class="text-2xl font-bold text-white">Tên Tài Khoản</h2>
+              <span id="profile-role" class="px-2.5 py-0.5 bg-slate-800 text-slate-400 text-xs font-semibold rounded-full border border-slate-700">Thành Viên</span>
+            </div>
+          </div>
+          <button onclick="logout()" class="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold transition flex items-center gap-2">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất
+          </button>
+        </div>
+
+        <!-- Khối Thống Kê Số Dư -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="bg-gradient-to-br from-emerald-950/40 to-slate-900 border border-emerald-500/30 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-medium mb-1">💳 Số Dư Ví Hiện Có</p>
+            <p id="profile-balance" class="text-2xl font-black text-emerald-400 font-mono">0đ</p>
+            <p class="text-[11px] text-slate-500 mt-2">Dùng để mua trực tiếp các gói nạp game</p>
+          </div>
+
+          <div class="bg-slate-950/50 border border-slate-800 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-medium mb-1">📥 Tổng Tiền Đã Nạp Ví</p>
+            <p id="profile-total-deposited" class="text-2xl font-bold text-amber-400 font-mono">0đ</p>
+            <p class="text-[11px] text-slate-500 mt-2">Tổng số tiền bạn đã chuyển khoản</p>
+          </div>
+
+          <div class="bg-slate-950/50 border border-slate-800 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-medium mb-1">🎮 Đơn Hàng Đã Mua</p>
+            <p id="profile-total-orders" class="text-2xl font-bold text-blue-400 font-mono">0 đơn</p>
+            <p class="text-[11px] text-slate-500 mt-2">Tổng số giao dịch nạp game thành công</p>
+          </div>
+        </div>
+
+        <!-- Nút Hành Động Nhanh -->
+        <div class="flex flex-wrap gap-4 mt-8 pt-6 border-t border-slate-800">
+          <button onclick="switchPage('deposit')" class="flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus-circle"></i> Nạp Tiền Vào Ví
+          </button>
+          <button onclick="switchPage('shop')" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-shopping"></i> Mua Gói Nạp Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB AUTH (ĐĂNG NHẬP / ĐĂNG KÝ) -->
+    <div id="page-auth" class="hidden max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 my-8">
       <div class="flex border-b border-slate-800 mb-6">
         <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2 font-bold text-amber-400 border-b-2 border-amber-400">Đăng Nhập</button>
         <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2 font-bold text-slate-400">Đăng Ký</button>
@@ -160,7 +126,7 @@
           <label class="block text-xs font-medium text-slate-400 mb-1">Mật khẩu</label>
           <input type="password" id="login-password" required class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400 text-sm">
         </div>
-        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-amber-500/10">ĐĂNG NHẬP</button>
+        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition">ĐĂNG NHẬP</button>
       </form>
 
       <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
@@ -172,18 +138,18 @@
           <label class="block text-xs font-medium text-slate-400 mb-1">Mật khẩu</label>
           <input type="password" id="reg-password" required class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400 text-sm">
         </div>
-        <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-emerald-500/10">TẠO TÀI KHOẢN</button>
+        <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition">TẠO TÀI KHOẢN</button>
       </form>
     </div>
 
-    <!-- TAB 1: SHOP NẠP GAME -->
+    <!-- TAB SHOP NẠP GAME -->
     <div id="page-shop" class="hidden space-y-6">
       <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 p-6 rounded-2xl border border-amber-500/20 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 class="text-xl font-bold text-amber-400">🔥 Shop Nạp Game Trực Tuyến</h2>
-          <p class="text-sm text-slate-400">Thanh toán bằng số dư ví. Nạp tiền vào ví trước để mua gói nhanh hơn.</p>
+          <p class="text-sm text-slate-400">Thanh toán tự động bằng số dư ví tài khoản.</p>
         </div>
-        <button onclick="switchPage('deposit')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl hover:bg-amber-400 transition"><i class="fa-solid fa-plus-circle mr-1"></i>Nạp Tiền Vào Ví</button>
+        <button onclick="switchPage('deposit')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl hover:bg-amber-400 transition"><i class="fa-solid fa-plus-circle mr-1"></i>Nạp Thêm Tiền Ví</button>
       </div>
 
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
@@ -229,12 +195,12 @@
             </div>
           </div>
 
-          <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition text-base shadow-lg shadow-amber-500/10">THANH TOÁN BẰNG VÍ SỐ DƯ</button>
+          <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition text-base shadow-lg shadow-amber-500/10">THANH TOÁN BẰNG SỐ DƯ VÍ</button>
         </form>
       </div>
     </div>
 
-    <!-- TAB 2: NẠP VÍ -->
+    <!-- TAB NẠP VÍ -->
     <div id="page-deposit" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-amber-400 mb-4"><i class="fa-solid fa-building-columns mr-2"></i>Chuyển Khoản Ngân Hàng</h3>
@@ -243,7 +209,7 @@
           <p class="flex justify-between"><span class="text-slate-400">Số tài khoản:</span> <b class="text-amber-400 font-mono">0999888777</b></p>
           <p class="flex justify-between"><span class="text-slate-400">Chủ tài khoản:</span> <b class="text-white">NGUYEN VAN A</b></p>
           <div class="border-t border-slate-800 pt-3 mt-3">
-            <p class="text-xs text-slate-400">Cú pháp chuyển khoản chuẩn:</p>
+            <p class="text-xs text-slate-400">Cú pháp chuyển khoản:</p>
             <p class="text-amber-300 font-mono text-xs font-bold mt-1 bg-slate-800 p-2 rounded text-center" id="deposit-syntax">NAP [TênTàiKhoản]</p>
           </div>
         </div>
@@ -265,7 +231,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: LỊCH SỬ GIAO DỊCH -->
+    <!-- TAB LỊCH SỬ GIAO DỊCH -->
     <div id="page-history" class="hidden space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-amber-400 mb-4"><i class="fa-solid fa-gamepad mr-2"></i>Lịch Sử Nạp Game</h3>
@@ -304,7 +270,7 @@
       </div>
     </div>
 
-    <!-- TAB 4: ADMIN QUẢN TRỊ (ẨN) -->
+    <!-- TAB ADMIN (ẨN) -->
     <div id="page-admin" class="hidden space-y-6">
       <div class="flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
         <h2 class="text-xl font-bold text-purple-400"><i class="fa-solid fa-user-shield mr-2"></i>Bảng Quản Trị Hệ Thống</h2>
@@ -364,18 +330,18 @@
     }
 
     function switchPage(page) {
-      if (!currentUser && (page === 'shop' || page === 'deposit' || page === 'history' || page === 'admin')) {
+      if (!currentUser && (page === 'shop' || page === 'deposit' || page === 'history' || page === 'profile' || page === 'admin')) {
         page = 'auth';
       }
 
-      ['home', 'auth', 'shop', 'deposit', 'history', 'admin'].forEach(p => {
+      ['home', 'auth', 'shop', 'deposit', 'history', 'profile', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
         if (el) el.classList.add('hidden');
       });
 
       document.getElementById(`page-${page}`).classList.remove('hidden');
 
-      ['home', 'shop', 'deposit', 'history'].forEach(p => {
+      ['home', 'shop', 'deposit', 'profile', 'history'].forEach(p => {
         const btn = document.getElementById(`nav-${p}`);
         if (btn) {
           if (p === page) {
@@ -386,6 +352,7 @@
         }
       });
 
+      if (page === 'profile') renderProfile();
       if (page === 'history') renderHistory();
       if (page === 'admin') renderAdmin();
     }
@@ -440,6 +407,22 @@
       switchPage('home');
     }
 
+    function renderProfile() {
+      if (!currentUser) return;
+      const me = users.find(u => u.username === currentUser.username) || currentUser;
+      
+      document.getElementById('profile-username').innerText = me.username;
+      document.getElementById('profile-role').innerText = me.role === 'admin' ? 'Quản Trị Viên' : 'Thành Viên';
+      document.getElementById('profile-balance').innerText = `${me.balance.toLocaleString()}đ`;
+
+      const myDeposits = deposits.filter(d => d.user === me.username && d.status === 'Thành công');
+      const totalDep = myDeposits.reduce((sum, d) => sum + d.amount, 0);
+      document.getElementById('profile-total-deposited').innerText = `${totalDep.toLocaleString()}đ`;
+
+      const myOrders = orders.filter(o => o.user === me.username && o.status === 'Thành công');
+      document.getElementById('profile-total-orders').innerText = `${myOrders.length} đơn`;
+    }
+
     function handleGameOrder(e) {
       e.preventDefault();
       const game = document.getElementById('shop-game').value;
@@ -449,7 +432,7 @@
       const price = parseInt(selectedPkg[1]);
 
       const me = users.find(u => u.username === currentUser.username);
-      if (me.balance < price) return alert('Số dư ví không đủ! Vui lòng vào mục "Nạp Ví" để cộng tiền.');
+      if (me.balance < price) return alert('Số dư ví không đủ! Vui lòng nạp thêm vào ví.');
 
       me.balance -= price;
       currentUser.balance = me.balance;
@@ -575,13 +558,15 @@
         document.getElementById('deposit-syntax').innerText = `NAP ${me.username}`;
 
         navUser.innerHTML = `
-          <div class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl flex items-center gap-2">
-            <span class="text-xs text-slate-400">Ví:</span>
+          <button onclick="switchPage('profile')" class="bg-slate-800 hover:bg-slate-700/80 border border-slate-700 px-3 py-1.5 rounded-xl flex items-center gap-2 transition cursor-pointer">
+            <span class="text-xs text-slate-400">Số dư:</span>
             <span class="text-sm font-bold text-emerald-400 font-mono">${me.balance.toLocaleString()}đ</span>
-          </div>
-          <span class="text-sm text-slate-300 hidden md:inline"><i class="fa-solid fa-user mr-1"></i>${me.username}</span>
+          </button>
+          <button onclick="switchPage('profile')" class="text-sm font-semibold text-slate-200 hover:text-amber-400 transition hidden md:flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-user text-amber-400 text-lg"></i>${me.username}
+          </button>
           ${me.role === 'admin' ? `<button onclick="switchPage('admin')" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-xl text-white">⚙️ Admin</button>` : ''}
-          <button onclick="logout()" class="p-2 text-slate-400 hover:text-red-400 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
+          <button onclick="logout()" title="Đăng xuất" class="p-2 text-slate-400 hover:text-red-400 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
         `;
       } else {
         navUser.innerHTML = `
