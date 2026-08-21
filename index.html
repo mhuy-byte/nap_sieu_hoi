@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NAPGAME247 - Hệ Thống Nạp Game Tự Động 24/7</title>
-  <!-- Tailwind CSS & FontAwesome CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col">
 
@@ -18,7 +21,6 @@
         <span class="text-lg md:text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">NAPGAME247</span>
       </div>
 
-      <!-- Desktop Links -->
       <div id="nav-links" class="hidden md:flex items-center space-x-1 text-sm font-medium">
         <button onclick="switchPage('home')" id="nav-home" class="px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition"><i class="fa-solid fa-house mr-1.5"></i>Trang Chủ</button>
         <button onclick="switchPage('shop')" id="nav-shop" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-gamepad mr-1.5"></i>Nạp Game</button>
@@ -34,24 +36,19 @@
   <!-- BOTTOM NAVIGATION MOBILE -->
   <div class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-50 px-2 py-1.5 flex justify-around items-center text-center shadow-2xl">
     <button onclick="switchPage('home')" id="mob-nav-home" class="flex flex-col items-center justify-center text-amber-400 font-bold text-[11px] py-1 px-2 rounded-lg transition">
-      <i class="fa-solid fa-house text-base mb-0.5"></i>
-      <span>Trang Chủ</span>
+      <i class="fa-solid fa-house text-base mb-0.5"></i><span>Trang Chủ</span>
     </button>
     <button onclick="switchPage('shop')" id="mob-nav-shop" class="flex flex-col items-center justify-center text-slate-400 text-[11px] py-1 px-2 rounded-lg transition">
-      <i class="fa-solid fa-gamepad text-base mb-0.5"></i>
-      <span>Nạp Game</span>
+      <i class="fa-solid fa-gamepad text-base mb-0.5"></i><span>Nạp Game</span>
     </button>
     <button onclick="switchPage('deposit')" id="mob-nav-deposit" class="flex flex-col items-center justify-center text-slate-400 text-[11px] py-1 px-2 rounded-lg transition">
-      <i class="fa-solid fa-wallet text-base mb-0.5"></i>
-      <span>Nạp Ví</span>
+      <i class="fa-solid fa-wallet text-base mb-0.5"></i><span>Nạp Ví</span>
     </button>
     <button onclick="switchPage('profile')" id="mob-nav-profile" class="flex flex-col items-center justify-center text-slate-400 text-[11px] py-1 px-2 rounded-lg transition">
-      <i class="fa-solid fa-user text-base mb-0.5"></i>
-      <span>Tài Khoản</span>
+      <i class="fa-solid fa-user text-base mb-0.5"></i><span>Tài Khoản</span>
     </button>
     <button onclick="switchPage('history')" id="mob-nav-history" class="flex flex-col items-center justify-center text-slate-400 text-[11px] py-1 px-2 rounded-lg transition">
-      <i class="fa-solid fa-clock-rotate-left text-base mb-0.5"></i>
-      <span>Lịch Sử</span>
+      <i class="fa-solid fa-clock-rotate-left text-base mb-0.5"></i><span>Lịch Sử</span>
     </button>
   </div>
 
@@ -60,8 +57,6 @@
 
     <!-- 1. TRANG CHỦ -->
     <div id="page-home" class="space-y-6 md:space-y-8">
-      
-      <!-- HERO BANNER -->
       <div class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-amber-500 via-orange-600 to-red-600 p-5 md:p-10 text-slate-950 shadow-2xl border border-amber-400/30">
         <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div class="space-y-3 text-center md:text-left max-w-xl">
@@ -72,9 +67,7 @@
               NẠP 1 ĐƯỢC 2 <br>
               <span class="text-white drop-shadow-md">TẶNG THÊM 50% GIÁ TRỊ</span>
             </h1>
-            <p class="text-slate-900 font-semibold text-xs md:text-base">
-              Rẻ hơn nạp trực tiếp trong Game tới <span class="bg-slate-950 text-amber-400 px-1.5 py-0.5 rounded font-bold">30%</span>. Tự động 30 giây!
-            </p>
+            <p class="text-slate-900 font-semibold text-xs md:text-base">Rẻ hơn nạp trực tiếp trong Game tới <span class="bg-slate-950 text-amber-400 px-1.5 py-0.5 rounded font-bold">30%</span>. Tự động 30 giây!</p>
             <div class="flex flex-col sm:flex-row gap-2.5 pt-2 justify-center md:justify-start">
               <button onclick="switchPage('shop')" class="w-full sm:w-auto px-6 py-3 bg-slate-950 text-amber-400 font-black rounded-xl hover:bg-slate-900 transition shadow-xl text-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-fire text-orange-500"></i> NẠP GAME NGAY
@@ -84,8 +77,6 @@
               </button>
             </div>
           </div>
-
-          <!-- ĐỒNG HỒ ĐẾM NGƯỜC -->
           <div class="bg-slate-950/90 text-white p-4 rounded-2xl border border-amber-500/30 text-center w-full md:w-auto shadow-2xl backdrop-blur-md">
             <p class="text-[11px] text-amber-400 font-bold uppercase tracking-wider mb-2"><i class="fa-solid fa-clock"></i> Khuyến Mãi Kết Thúc Sau</p>
             <div class="flex justify-center gap-2 font-mono font-black text-xl md:text-2xl text-amber-400">
@@ -96,64 +87,6 @@
           </div>
         </div>
       </div>
-
-      <!-- MARQUEE -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center gap-2 overflow-hidden shadow-md">
-        <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-bold text-[10px] md:text-xs rounded-lg flex items-center gap-1 shrink-0 border border-emerald-500/30">
-          <i class="fa-solid fa-circle-check animate-ping"></i> Vừa Nạp
-        </span>
-        <marquee class="text-xs text-slate-300 font-mono">
-          <span class="mx-3 text-amber-400"><i class="fa-solid fa-gift mr-1"></i>User ***8821 nạp 580 Kim Cương (Tiết kiệm 30.000đ)</span> | 
-          <span class="mx-3 text-emerald-400"><i class="fa-solid fa-gift mr-1"></i>User ***0192 nạp Sổ Sứ Mệnh (Thưởng x2)</span> | 
-          <span class="mx-3 text-amber-400"><i class="fa-solid fa-gift mr-1"></i>User ***3321 nạp 520 FC Points (Tiết kiệm 50.000đ)</span>
-        </marquee>
-      </div>
-
-      <!-- CÁC GÓI SIÊU HỜI NHẤT -->
-      <div>
-        <div class="flex justify-between items-end mb-3">
-          <div>
-            <h3 class="text-lg md:text-xl font-black text-amber-400 flex items-center gap-2">
-              <i class="fa-solid fa-tags"></i> GÓI SIÊU HỜI HÔM NAY
-            </h3>
-            <p class="text-[11px] md:text-xs text-slate-400">Giảm giá sâu nhất trên hệ thống</p>
-          </div>
-          <button onclick="switchPage('shop')" class="text-xs text-amber-400 hover:underline font-bold">Tất cả <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-          <div onclick="switchPage('shop')" class="cursor-pointer bg-slate-900 border border-amber-500/30 hover:border-amber-400 rounded-2xl p-4 transition relative group">
-            <span class="absolute top-0 right-0 bg-red-600 text-white font-black text-[9px] px-2.5 py-0.5 rounded-bl-xl shadow uppercase">Tiết kiệm 45%</span>
-            <p class="text-xs text-amber-400 font-bold mb-1">🔥 Free Fire</p>
-            <h4 class="text-base font-black text-white group-hover:text-amber-400">580 Kim Cương + Thẻ Tuần</h4>
-            <div class="mt-3 flex items-baseline gap-2">
-              <span class="text-xl font-black text-emerald-400 font-mono">100.000đ</span>
-              <span class="text-xs text-slate-500 line-through font-mono">180.000đ</span>
-            </div>
-          </div>
-
-          <div onclick="switchPage('shop')" class="cursor-pointer bg-slate-900 border border-amber-500/30 hover:border-amber-400 rounded-2xl p-4 transition relative group">
-            <span class="absolute top-0 right-0 bg-red-600 text-white font-black text-[9px] px-2.5 py-0.5 rounded-bl-xl shadow uppercase">Giảm 35%</span>
-            <p class="text-xs text-amber-400 font-bold mb-1">⚔️ Liên Quân Mobile</p>
-            <h4 class="text-base font-black text-white group-hover:text-amber-400">425 Quân Huy + SSM</h4>
-            <div class="mt-3 flex items-baseline gap-2">
-              <span class="text-xl font-black text-emerald-400 font-mono">100.000đ</span>
-              <span class="text-xs text-slate-500 line-through font-mono">155.000đ</span>
-            </div>
-          </div>
-
-          <div onclick="switchPage('shop')" class="cursor-pointer bg-slate-900 border border-amber-500/30 hover:border-amber-400 rounded-2xl p-4 transition relative group">
-            <span class="absolute top-0 right-0 bg-red-600 text-white font-black text-[9px] px-2.5 py-0.5 rounded-bl-xl shadow uppercase">Giảm 33%</span>
-            <p class="text-xs text-amber-400 font-bold mb-1">⚽ FC Mobile</p>
-            <h4 class="text-base font-black text-white group-hover:text-amber-400">520 FC Points + Star Pass</h4>
-            <div class="mt-3 flex items-baseline gap-2">
-              <span class="text-xl font-black text-emerald-400 font-mono">100.000đ</span>
-              <span class="text-xs text-slate-500 line-through font-mono">150.000đ</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <!-- 2. TAB SHOP NẠP GAME -->
@@ -171,8 +104,7 @@
       <form onsubmit="handleGameOrder(event)" class="space-y-6">
         <div>
           <label class="block text-sm font-bold text-slate-200 mb-2 flex items-center gap-2">
-            <span class="w-5 h-5 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">1</span>
-            Chọn Game
+            <span class="w-5 h-5 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">1</span> Chọn Game
           </label>
           <div id="game-selector-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
         </div>
@@ -185,8 +117,7 @@
         <div>
           <div class="flex justify-between items-center mb-2">
             <label class="text-sm font-bold text-slate-200 flex items-center gap-2">
-              <span class="w-5 h-5 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">3</span>
-              Chọn Gói Nạp
+              <span class="w-5 h-5 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-xs">3</span> Chọn Gói Nạp
             </label>
             <span id="selected-game-title" class="text-xs text-amber-400 font-bold uppercase"></span>
           </div>
@@ -204,17 +135,13 @@
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-8 shadow-xl">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-5 gap-4">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-xl font-black text-slate-950">
-              <i class="fa-solid fa-user"></i>
-            </div>
+            <div class="w-12 h-12 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-xl font-black text-slate-950"><i class="fa-solid fa-user"></i></div>
             <div>
               <h2 id="profile-username" class="text-xl font-bold text-white">Tên Tài Khoản</h2>
               <span id="profile-role" class="px-2 py-0.5 bg-slate-800 text-slate-400 text-[10px] font-semibold rounded-full border border-slate-700">Thành Viên</span>
             </div>
           </div>
-          <button onclick="logout()" class="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất
-          </button>
+          <button onclick="logout()" class="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold flex items-center gap-1.5"><i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất</button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
@@ -232,19 +159,9 @@
           </div>
         </div>
 
-        <!-- Nút dành riêng cho Admin -->
         <div id="admin-access-btn-container" class="hidden mt-4">
-          <button onclick="switchPage('admin')" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-purple-500/20 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-user-shield text-amber-300"></i> TRANG QUẢN TRỊ ADMIN (DUYỆT ĐƠN & NẠP VÍ)
-          </button>
-        </div>
-
-        <div class="flex gap-3 mt-6 pt-5 border-t border-slate-800">
-          <button onclick="switchPage('deposit')" class="flex-1 py-2.5 bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-plus-circle"></i> Nạp Ví
-          </button>
-          <button onclick="switchPage('shop')" class="flex-1 py-2.5 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-cart-shopping"></i> Nạp Game
+          <button onclick="switchPage('admin')" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 text-white font-bold text-sm rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-shield text-amber-300"></i> TRANG QUẢN TRỊ ADMIN (ĐỒNG BỘ ĐÁM MÂY)
           </button>
         </div>
       </div>
@@ -262,11 +179,11 @@
       <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Tài khoản</label>
-          <input type="text" id="login-username" required placeholder="Tài khoản (mặc định: admin)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="login-username" required placeholder="Nhập tài khoản (admin)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Mật khẩu</label>
-          <input type="password" id="login-password" required placeholder="Mật khẩu (mặc định: 123)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+          <input type="password" id="login-password" required placeholder="Nhập mật khẩu (123)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
         </div>
         <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition">ĐĂNG NHẬP</button>
       </form>
@@ -359,9 +276,9 @@
       <div class="flex justify-between items-center bg-purple-950/80 border border-purple-500/40 p-4 rounded-2xl shadow-xl">
         <div>
           <h2 class="text-lg font-bold text-purple-200 flex items-center gap-2">
-            <i class="fa-solid fa-user-shield text-purple-400 text-xl"></i> BẢNG ĐIỀU KHIỂN QUẢN TRỊ ADMIN
+            <i class="fa-solid fa-user-shield text-purple-400 text-xl"></i> BẢNG ĐIỀU KHIỂN QUẢN TRỊ ADMIN (REALTIME)
           </h2>
-          <p class="text-xs text-purple-300/80">Xử lý duyệt đơn nạp game, duyệt tiền ví và quản lý thành viên.</p>
+          <p class="text-xs text-purple-300/80">Tự động đồng bộ đơn từ tất cả thiết bị người dùng.</p>
         </div>
         <button onclick="switchPage('profile')" class="text-xs px-3.5 py-2 bg-purple-900/80 hover:bg-purple-800 text-purple-100 rounded-xl transition border border-purple-500/30 font-bold">
           <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
@@ -441,76 +358,36 @@
           </div>
         </form>
       </div>
-
     </div>
 
   </main>
 
-  <!-- JAVASCRIPT XỬ LÝ -->
   <script>
+    // CẤU HÌNH FIREBASE REALTIME DATABASE MIỄN PHÍ DÙNG CHUNG
+    const firebaseConfig = {
+      databaseURL: "https://napgame247-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     const gamesData = [
       {
-        id: 'ff',
-        name: 'Free Fire',
-        icon: '🔥',
-        badge: '-10% HOT',
-        badgeColor: 'bg-red-500/20 text-red-400',
-        idLabel: '2. ID Nhân Vật Free Fire (Player ID)',
-        idPlaceholder: 'Nhập ID Free Fire (Ví dụ: 123456789)...',
+        id: 'ff', name: 'Free Fire', icon: '🔥', badge: '-10% HOT', badgeColor: 'bg-red-500/20 text-red-400',
+        idLabel: '2. ID Nhân Vật Free Fire (Player ID)', idPlaceholder: 'Nhập ID Free Fire...',
         packages: [
           { name: '111 Kim Cương', price: 20000, desc: 'Nạp trực tiếp qua Player ID' },
           { name: '280 Kim Cương', price: 50000, desc: 'Thưởng +10% Kim Cương' },
           { name: '580 Kim Cương', price: 100000, desc: 'Thưởng +15% Kim Cương' },
-          { name: '1.190 Kim Cương', price: 200000, desc: 'Gói nạp phổ biến' },
-          { name: 'Thẻ Tuần Free Fire', price: 50000, desc: 'Nhận Kim Cương mỗi ngày' },
-          { name: 'Thẻ Tháng Free Fire', price: 150000, desc: 'Tiết kiệm đến 500%' }
+          { name: '1.190 Kim Cương', price: 200000, desc: 'Gói nạp phổ biến' }
         ]
       },
       {
-        id: 'lq',
-        name: 'Liên Quân Mobile',
-        icon: '⚔️',
-        badge: 'Khuyên Dùng',
-        badgeColor: 'bg-amber-500/20 text-amber-400',
-        idLabel: '2. Tên Tài Khoản / OpenID Liên Quân',
-        idPlaceholder: 'Nhập OpenID hoặc Tên Nhân Vật...',
+        id: 'lq', name: 'Liên Quân Mobile', icon: '⚔️', badge: 'Khuyên Dùng', badgeColor: 'bg-amber-500/20 text-amber-400',
+        idLabel: '2. Tên Tài Khoản / OpenID Liên Quân', idPlaceholder: 'Nhập OpenID...',
         packages: [
           { name: '84 Quân Huy', price: 20000, desc: 'Xử lý tự động 30s' },
           { name: '210 Quân Huy', price: 50000, desc: 'Tặng thêm 10 QH' },
-          { name: '425 Quân Huy', price: 100000, desc: 'Gói Bestseller' },
-          { name: '1.070 Quân Huy', price: 250000, desc: 'Sở hữu trang phục SS' },
-          { name: 'Sổ Sứ Mệnh Vượt Cấp', price: 100000, desc: 'Mở khóa toàn bộ quà SSM' }
-        ]
-      },
-      {
-        id: 'fcmobile',
-        name: 'FC Mobile',
-        icon: '⚽',
-        badge: 'Tự Động 24/7',
-        badgeColor: 'bg-emerald-500/20 text-emerald-400',
-        idLabel: '2. UID / ID Tài Khoản FC Mobile',
-        idPlaceholder: 'Ví dụ: 12345678 (Nhập UID FC Mobile)...',
-        packages: [
-          { name: '100 FC Points', price: 20000, desc: 'Xử lý tự động 30s' },
-          { name: '520 FC Points', price: 100000, desc: 'Tặng thêm 50 FC Points' },
-          { name: '1.070 FC Points', price: 200000, desc: 'Gói ưu đãi hot' },
-          { name: '2.200 FC Points', price: 400000, desc: 'Gói nạp lớn' },
-          { name: 'Star Pass FC Mobile', price: 220000, desc: 'Mở khóa toàn bộ phần thưởng mùa giải' }
-        ]
-      },
-      {
-        id: 'roblox',
-        name: 'Roblox (Robux)',
-        icon: '🟦',
-        badge: 'Mới',
-        badgeColor: 'bg-blue-500/20 text-blue-400',
-        idLabel: '2. Tên Tài Khoản Roblox (Username)',
-        idPlaceholder: 'Nhập Username Roblox của bạn...',
-        packages: [
-          { name: '80 Robux', price: 25000, desc: 'Nạp sạch 100% qua Gamepass' },
-          { name: '400 Robux', price: 120000, desc: 'Giá siêu ưu đãi' },
-          { name: '800 Robux', price: 240000, desc: 'Nhận Robux trong 1 phút' },
-          { name: '1.700 Robux', price: 480000, desc: 'Gói VIP Roblox' }
+          { name: '425 Quân Huy', price: 100000, desc: 'Gói Bestseller' }
         ]
       }
     ];
@@ -518,71 +395,36 @@
     let selectedGame = gamesData[0];
     let selectedPackage = gamesData[0].packages[0];
 
-    // Mặc định ban đầu
-    let users = [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
-    let orders = [];
-    let deposits = [];
-    let currentUser = null;
+    let users = {};
+    let orders = {};
+    let deposits = {};
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-    // Chuẩn hóa và khôi phục dữ liệu từ localStorage
-    try {
-      const parsedUsers = JSON.parse(localStorage.getItem('users'));
-      if (Array.isArray(parsedUsers) && parsedUsers.length > 0) {
-        users = parsedUsers.map(u => ({
-          username: u.username || 'user',
-          password: u.password || '123',
-          balance: Number(u.balance) || 0,
-          role: u.role || (u.username.toLowerCase() === 'admin' ? 'admin' : 'user')
-        }));
+    // Lắng nghe dữ liệu Đám Mây Realtime 24/7
+    db.ref('users').on('value', (snap) => {
+      users = snap.val() || {};
+      // Khởi tạo admin mặc định trên đám mây nếu chưa có
+      if (!users['admin']) {
+        db.ref('users/admin').set({ username: 'admin', password: '123', balance: 1000000, role: 'admin' });
       }
+      updateUI();
+      if (document.getElementById('page-profile').classList.contains('hidden') === false) renderProfile();
+    });
 
-      const parsedOrders = JSON.parse(localStorage.getItem('orders'));
-      if (Array.isArray(parsedOrders)) orders = parsedOrders;
+    db.ref('orders').on('value', (snap) => {
+      orders = snap.val() || {};
+      renderHistory();
+      renderAdmin();
+    });
 
-      const parsedDeposits = JSON.parse(localStorage.getItem('deposits'));
-      if (Array.isArray(parsedDeposits)) deposits = parsedDeposits;
-
-      const parsedCU = JSON.parse(localStorage.getItem('currentUser'));
-      if (parsedCU && parsedCU.username) {
-        currentUser = users.find(u => u.username.toLowerCase() === parsedCU.username.toLowerCase()) || null;
-      }
-    } catch (err) {
-      console.warn("Lỗi đọc localStorage:", err);
-    }
-
-    function saveData() {
-      try {
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('orders', JSON.stringify(orders));
-        localStorage.setItem('deposits', JSON.stringify(deposits));
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      } catch (err) {
-        console.warn("Không thể lưu localStorage:", err);
-      }
-    }
-
-    function showAuthAlert(msg, isSuccess = false) {
-      const box = document.getElementById('auth-alert');
-      if (!box) return;
-      box.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border-red-500/30', 'bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/30');
-      
-      if (isSuccess) {
-        box.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/30');
-      } else {
-        box.classList.add('bg-red-500/10', 'text-red-400', 'border-red-500/30');
-      }
-      box.innerText = msg;
-    }
-
-    function hideAuthAlert() {
-      const box = document.getElementById('auth-alert');
-      if (box) box.classList.add('hidden');
-    }
+    db.ref('deposits').on('value', (snap) => {
+      deposits = snap.val() || {};
+      renderHistory();
+      renderAdmin();
+    });
 
     function switchPage(page) {
-      if (!currentUser && (page === 'shop' || page === 'deposit' || page === 'history' || page === 'profile' || page === 'admin')) {
-        page = 'auth';
-      }
+      if (!currentUser && page !== 'home') page = 'auth';
 
       ['home', 'auth', 'shop', 'deposit', 'history', 'profile', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
@@ -591,17 +433,6 @@
 
       const target = document.getElementById(`page-${page}`);
       if (target) target.classList.remove('hidden');
-
-      ['home', 'shop', 'deposit', 'profile', 'history'].forEach(p => {
-        const btn = document.getElementById(`nav-${p}`);
-        const mobBtn = document.getElementById(`mob-nav-${p}`);
-        if (btn) {
-          btn.className = (p === page) ? "px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition font-bold" : "px-4 py-2 rounded-lg text-slate-400 hover:text-white transition";
-        }
-        if (mobBtn) {
-          mobBtn.className = (p === page) ? "flex flex-col items-center justify-center text-amber-400 font-bold text-[11px] py-1 px-2 rounded-lg transition" : "flex flex-col items-center justify-center text-slate-400 text-[11px] py-1 px-2 rounded-lg transition";
-        }
-      });
 
       if (page === 'shop') renderShopUI();
       if (page === 'profile') renderProfile();
@@ -614,27 +445,19 @@
     function renderShopUI() {
       const gameGrid = document.getElementById('game-selector-grid');
       if (!gameGrid) return;
-      gameGrid.innerHTML = gamesData.map(g => {
-        const isSelected = g.id === selectedGame.id;
-        return `
-          <div onclick="selectGame('${g.id}')" 
-               class="cursor-pointer bg-slate-900 border ${isSelected ? 'border-amber-500 ring-2 ring-amber-500/20 bg-amber-500/5' : 'border-slate-800'} rounded-2xl p-3 transition flex flex-col justify-between relative">
-            <div class="flex justify-between items-start mb-2">
-              <div class="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center text-xl">${g.icon}</div>
-              <span class="px-1.5 py-0.5 ${g.badgeColor} text-[9px] font-bold rounded-full">${g.badge}</span>
-            </div>
-            <div>
-              <h4 class="font-bold text-white text-xs md:text-sm ${isSelected ? 'text-amber-400' : ''}">${g.name}</h4>
-              <p class="text-[10px] text-slate-500 mt-0.5">${g.packages.length} gói nạp</p>
-            </div>
+      gameGrid.innerHTML = gamesData.map(g => `
+        <div onclick="selectGame('${g.id}')" class="cursor-pointer bg-slate-900 border ${g.id === selectedGame.id ? 'border-amber-500 bg-amber-500/5' : 'border-slate-800'} rounded-2xl p-3 transition flex flex-col justify-between">
+          <div class="flex justify-between items-start mb-2">
+            <div class="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center text-xl">${g.icon}</div>
+            <span class="px-1.5 py-0.5 ${g.badgeColor} text-[9px] font-bold rounded-full">${g.badge}</span>
           </div>
-        `;
-      }).join('');
+          <h4 class="font-bold text-white text-xs md:text-sm">${g.name}</h4>
+        </div>
+      `).join('');
 
       document.getElementById('game-id-label').innerText = selectedGame.idLabel;
       document.getElementById('shop-gameid').placeholder = selectedGame.idPlaceholder;
       document.getElementById('selected-game-title').innerText = `Gói: ${selectedGame.name}`;
-
       renderPackages();
     }
 
@@ -647,22 +470,12 @@
     function renderPackages() {
       const packageGrid = document.getElementById('packages-grid');
       if (!packageGrid) return;
-      packageGrid.innerHTML = selectedGame.packages.map((pkg, idx) => {
-        const isSelected = pkg.name === selectedPackage.name;
-        return `
-          <label onclick="selectPackage(${idx})" class="cursor-pointer border ${isSelected ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900'} p-3 rounded-xl flex flex-col justify-between transition">
-            <input type="radio" name="pkg" ${isSelected ? 'checked' : ''} class="hidden">
-            <div>
-              <p class="font-bold text-white text-xs md:text-sm ${isSelected ? 'text-amber-400' : ''}">${pkg.name}</p>
-              <p class="text-[10px] text-slate-400 mt-0.5">${pkg.desc}</p>
-            </div>
-            <div class="mt-3 pt-2 border-t border-slate-800 flex justify-between items-center">
-              <span class="text-[10px] text-slate-500">Giá:</span>
-              <span class="text-sm font-bold text-emerald-400 font-mono">${(Number(pkg.price) || 0).toLocaleString('vi-VN')}đ</span>
-            </div>
-          </label>
-        `;
-      }).join('');
+      packageGrid.innerHTML = selectedGame.packages.map((pkg, idx) => `
+        <label onclick="selectPackage(${idx})" class="cursor-pointer border ${pkg.name === selectedPackage.name ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900'} p-3 rounded-xl flex flex-col justify-between">
+          <p class="font-bold text-white text-xs">${pkg.name}</p>
+          <span class="text-sm font-bold text-emerald-400 font-mono mt-2">${pkg.price.toLocaleString('vi-VN')}đ</span>
+        </label>
+      `).join('');
     }
 
     function selectPackage(idx) {
@@ -671,139 +484,79 @@
     }
 
     function switchAuthTab(tab) {
-      hideAuthAlert();
       if (tab === 'login') {
         document.getElementById('form-login').classList.remove('hidden');
         document.getElementById('form-register').classList.add('hidden');
-        document.getElementById('tab-login').className = "w-1/2 py-2 font-bold text-amber-400 border-b-2 border-amber-400 text-sm";
-        document.getElementById('tab-register').className = "w-1/2 py-2 font-bold text-slate-400 text-sm";
       } else {
         document.getElementById('form-login').classList.add('hidden');
         document.getElementById('form-register').classList.remove('hidden');
-        document.getElementById('tab-register').className = "w-1/2 py-2 font-bold text-emerald-400 border-b-2 border-emerald-400 text-sm";
-        document.getElementById('tab-login').className = "w-1/2 py-2 font-bold text-slate-400 text-sm";
       }
     }
 
     function handleRegister(e) {
       e.preventDefault();
-      const u = document.getElementById('reg-username').value.trim();
+      const u = document.getElementById('reg-username').value.trim().toLowerCase();
       const p = document.getElementById('reg-password').value;
 
-      if (!u || !p) return showAuthAlert('Vui lòng nhập tên tài khoản và mật khẩu!');
+      if (users[u]) return alert('Tài khoản đã tồn tại!');
 
-      if (users.some(x => x.username.toLowerCase() === u.toLowerCase())) {
-        return showAuthAlert('❌ Tên tài khoản này đã tồn tại!');
-      }
-      
       const newUser = { username: u, password: p, balance: 0, role: 'user' };
-      users.push(newUser);
+      db.ref(`users/${u}`).set(newUser);
       currentUser = newUser;
-      saveData();
-      updateUI();
-
-      document.getElementById('reg-username').value = '';
-      document.getElementById('reg-password').value = '';
-
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
       switchPage('profile');
     }
 
     function handleLogin(e) {
       e.preventDefault();
-      const uInput = document.getElementById('login-username');
-      const pInput = document.getElementById('login-password');
-      if (!uInput || !pInput) return;
+      const u = document.getElementById('login-username').value.trim().toLowerCase();
+      const p = document.getElementById('login-password').value;
 
-      const u = uInput.value.trim();
-      const p = pInput.value;
-
-      if (!u || !p) return showAuthAlert('Vui lòng nhập tài khoản và mật khẩu!');
-
-      const found = users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
-      if (!found) {
-        return showAuthAlert('❌ Sai tài khoản hoặc mật khẩu!');
-      }
-
-      currentUser = found;
-      saveData();
-      updateUI();
-      hideAuthAlert();
-
-      uInput.value = '';
-      pInput.value = '';
-
-      if (currentUser.role === 'admin') {
-        switchPage('admin');
+      if (users[u] && users[u].password === p) {
+        currentUser = users[u];
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        switchPage(currentUser.role === 'admin' ? 'admin' : 'profile');
       } else {
-        switchPage('profile');
+        alert('Sai tài khoản hoặc mật khẩu!');
       }
     }
 
     function logout() {
       currentUser = null;
-      saveData();
+      localStorage.removeItem('currentUser');
       updateUI();
       switchPage('home');
     }
 
     function renderProfile() {
-      if (!currentUser) return;
-      const me = users.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase()) || currentUser;
-      
-      const pName = document.getElementById('profile-username');
-      const pRole = document.getElementById('profile-role');
-      const pBal = document.getElementById('profile-balance');
-      const pTotDep = document.getElementById('profile-total-deposited');
-      const pTotOrd = document.getElementById('profile-total-orders');
+      if (!currentUser || !users[currentUser.username]) return;
+      const me = users[currentUser.username];
+      document.getElementById('profile-username').innerText = me.username;
+      document.getElementById('profile-role').innerText = me.role === 'admin' ? 'Quản Trị Viên' : 'Thành Viên';
+      document.getElementById('profile-balance').innerText = `${(me.balance || 0).toLocaleString('vi-VN')}đ`;
 
-      if (pName) pName.innerText = me.username;
-      if (pRole) pRole.innerText = me.role === 'admin' ? 'Quản Trị Viên' : 'Thành Viên';
-      if (pBal) pBal.innerText = `${(Number(me.balance) || 0).toLocaleString('vi-VN')}đ`;
-
-      const myDeposits = deposits.filter(d => d.user && d.user.toLowerCase() === me.username.toLowerCase() && d.status === 'Thành công');
-      const totalDep = myDeposits.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
-      if (pTotDep) pTotDep.innerText = `${totalDep.toLocaleString('vi-VN')}đ`;
-
-      const myOrders = orders.filter(o => o.user && o.user.toLowerCase() === me.username.toLowerCase() && o.status === 'Thành công');
-      if (pTotOrd) pTotOrd.innerText = `${myOrders.length} đơn`;
-
-      // Hiển thị nút bấm Trang Admin nếu tài khoản là Admin
-      const adminBtnBox = document.getElementById('admin-access-btn-container');
-      if (adminBtnBox) {
-        if (me.role === 'admin') {
-          adminBtnBox.classList.remove('hidden');
-        } else {
-          adminBtnBox.classList.add('hidden');
-        }
+      if (me.role === 'admin') {
+        document.getElementById('admin-access-btn-container').classList.remove('hidden');
       }
     }
 
     function handleGameOrder(e) {
       e.preventDefault();
+      const me = users[currentUser.username];
       const gameId = document.getElementById('shop-gameid').value;
-      const me = users.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
 
-      if ((me.balance || 0) < selectedPackage.price) {
-        return alert('Số dư ví không đủ! Vui lòng vào mục "Nạp Ví" để cộng thêm tiền.');
-      }
+      if ((me.balance || 0) < selectedPackage.price) return alert('Số dư ví không đủ!');
 
-      me.balance -= selectedPackage.price;
-      currentUser.balance = me.balance;
+      db.ref(`users/${me.username}/balance`).set(me.balance - selectedPackage.price);
 
-      orders.push({
-        id: Date.now(),
-        user: currentUser.username,
-        game: selectedGame.name,
-        gameId: gameId,
-        package: selectedPackage.name,
-        price: selectedPackage.price,
-        status: 'Chờ xử lý',
-        date: new Date().toLocaleString('vi-VN')
+      const orderKey = db.ref('orders').push().key;
+      db.ref(`orders/${orderKey}`).set({
+        id: orderKey, user: me.username, game: selectedGame.name, gameId,
+        package: selectedPackage.name, price: selectedPackage.price,
+        status: 'Chờ xử lý', date: new Date().toLocaleString('vi-VN')
       });
 
-      saveData();
-      updateUI();
-      alert(`Đã gửi đơn nạp ${selectedPackage.name} cho ID ${gameId}!`);
+      alert('Đã tạo đơn thành công!');
       document.getElementById('shop-gameid').value = '';
       switchPage('history');
     }
@@ -813,282 +566,145 @@
       const amount = parseInt(document.getElementById('dep-amount').value);
       const transId = document.getElementById('dep-transid').value;
 
-      deposits.push({
-        id: Date.now(),
-        user: currentUser.username,
-        amount,
-        transId,
-        status: 'Chờ duyệt',
-        date: new Date().toLocaleString('vi-VN')
+      const depKey = db.ref('deposits').push().key;
+      db.ref(`deposits/${depKey}`).set({
+        id: depKey, user: currentUser.username, amount, transId,
+        status: 'Chờ duyệt', date: new Date().toLocaleString('vi-VN')
       });
 
-      saveData();
-      alert('Đã gửi yêu cầu nạp tiền vào ví!');
+      alert('Đã gửi yêu cầu nạp ví lên hệ thống!');
       e.target.reset();
       switchPage('history');
     }
 
     function renderHistory() {
       if (!currentUser) return;
-      const myOrders = orders.filter(o => o.user && o.user.toLowerCase() === currentUser.username.toLowerCase());
-      const myDeposits = deposits.filter(d => d.user && d.user.toLowerCase() === currentUser.username.toLowerCase());
+      const myOrders = Object.values(orders).filter(o => o.user === currentUser.username);
+      const myDeposits = Object.values(deposits).filter(d => d.user === currentUser.username);
 
-      const gList = document.getElementById('history-game-list');
-      if (gList) {
-        gList.innerHTML = myOrders.length ? myOrders.map(o => `
-          <tr>
-            <td class="p-2.5 text-slate-500">${o.date || ''}</td>
-            <td class="p-2.5 font-semibold">${o.game || ''}</td>
-            <td class="p-2.5 font-mono text-amber-300">${o.gameId || ''}</td>
-            <td class="p-2.5">${o.package || ''}</td>
-            <td class="p-2.5 font-bold text-emerald-400">${(Number(o.price) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2.5">
-              <span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : o.status === 'Thất bại' ? 'bg-red-900/80 text-red-300' : 'bg-amber-900/80 text-amber-300'}">
-                ${o.status || 'Chờ xử lý'}
-              </span>
-            </td>
-          </tr>
-        `).join('') : '<tr><td colspan="6" class="p-3 text-center text-slate-500">Chưa có đơn nạp game</td></tr>';
-      }
+      document.getElementById('history-game-list').innerHTML = myOrders.map(o => `
+        <tr>
+          <td class="p-2.5 text-slate-500">${o.date}</td>
+          <td class="p-2.5 font-semibold">${o.game}</td>
+          <td class="p-2.5 font-mono text-amber-300">${o.gameId}</td>
+          <td class="p-2.5">${o.package}</td>
+          <td class="p-2.5 font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
+        </tr>
+      `).join('');
 
-      const wList = document.getElementById('history-wallet-list');
-      if (wList) {
-        wList.innerHTML = myDeposits.length ? myDeposits.map(d => `
-          <tr>
-            <td class="p-2.5 text-slate-500">${d.date || ''}</td>
-            <td class="p-2.5 font-bold text-emerald-400">+${(Number(d.amount) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2.5 font-mono text-slate-400">${d.transId || ''}</td>
-            <td class="p-2.5">
-              <span class="px-2 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : d.status === 'Thất bại' ? 'bg-red-900/80 text-red-300' : 'bg-amber-900/80 text-amber-300'}">
-                ${d.status || 'Chờ duyệt'}
-              </span>
-            </td>
-          </tr>
-        `).join('') : '<tr><td colspan="4" class="p-3 text-center text-slate-500">Chưa có lịch sử nạp ví</td></tr>';
-      }
+      document.getElementById('history-wallet-list').innerHTML = myDeposits.map(d => `
+        <tr>
+          <td class="p-2.5 text-slate-500">${d.date}</td>
+          <td class="p-2.5 font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
+          <td class="p-2.5 font-mono text-slate-400">${d.transId}</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
+        </tr>
+      `).join('');
     }
 
     function renderAdmin() {
-      // Đếm số đơn chờ
-      const pendingOrders = orders.filter(o => o.status === 'Chờ xử lý').length;
-      const pendingDeposits = deposits.filter(d => d.status === 'Chờ duyệt').length;
+      const orderListArr = Object.values(orders);
+      const depositListArr = Object.values(deposits);
 
-      const pOrdEl = document.getElementById('admin-pending-orders-count');
-      if (pOrdEl) pOrdEl.innerText = `${pendingOrders} đơn chờ`;
+      document.getElementById('admin-orders-list').innerHTML = orderListArr.map(o => `
+        <tr>
+          <td class="p-2.5 text-slate-500 text-[11px]">${o.date}</td>
+          <td class="p-2.5 font-bold text-amber-300">${o.user}</td>
+          <td class="p-2.5 font-semibold text-white">${o.game}</td>
+          <td class="p-2.5 font-mono text-amber-400">${o.gameId}</td>
+          <td class="p-2.5 text-slate-200">${o.package}</td>
+          <td class="p-2.5 font-mono font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
+          <td class="p-2.5 text-center">
+            ${o.status === 'Chờ xử lý' ? `
+              <button onclick="approveOrder('${o.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold">Duyệt</button>
+              <button onclick="rejectOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Hủy</button>
+            ` : 'Đã xử lý'}
+          </td>
+        </tr>
+      `).join('');
 
-      const pDepEl = document.getElementById('admin-pending-deposits-count');
-      if (pDepEl) pDepEl.innerText = `${pendingDeposits} yêu cầu`;
-
-      // 1. Render Bảng Đơn Nạp Game
-      const ordList = document.getElementById('admin-orders-list');
-      if (ordList) {
-        ordList.innerHTML = orders.length ? orders.map(o => `
-          <tr>
-            <td class="p-2.5 text-slate-500 text-[11px]">${o.date || ''}</td>
-            <td class="p-2.5 font-bold text-amber-300">${o.user || ''}</td>
-            <td class="p-2.5 font-semibold text-white">${o.game || ''}</td>
-            <td class="p-2.5 font-mono text-amber-400">${o.gameId || ''}</td>
-            <td class="p-2.5 text-slate-200">${o.package || ''}</td>
-            <td class="p-2.5 font-mono font-bold text-emerald-400">${(Number(o.price) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2.5">
-              <span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300 border border-emerald-500/30' : o.status === 'Thất bại' ? 'bg-red-900/80 text-red-300 border border-red-500/30' : 'bg-amber-900/80 text-amber-300 border border-amber-500/30'}">
-                ${o.status || 'Chờ xử lý'}
-              </span>
-            </td>
-            <td class="p-2.5 text-center">
-              ${o.status === 'Chờ xử lý' ? `
-                <div class="flex items-center justify-center gap-1.5">
-                  <button onclick="approveOrder(${o.id})" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
-                    <i class="fa-solid fa-check"></i> Duyệt
-                  </button>
-                  <button onclick="rejectOrder(${o.id})" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
-                    <i class="fa-solid fa-xmark"></i> Hủy
-                  </button>
-                </div>
-              ` : '<span class="text-slate-500 text-[11px]">Đã xử lý</span>'}
-            </td>
-          </tr>
-        `).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-500">Chưa có đơn nạp game nào</td></tr>';
-      }
-
-      // 2. Render Bảng Duyệt Nạp Ví
-      const depList = document.getElementById('admin-deposits-list');
-      if (depList) {
-        depList.innerHTML = deposits.length ? deposits.map(d => `
-          <tr>
-            <td class="p-2.5 text-slate-500 text-[11px]">${d.date || ''}</td>
-            <td class="p-2.5 font-bold text-amber-300">${d.user || ''}</td>
-            <td class="p-2.5 font-mono font-bold text-emerald-400">+${(Number(d.amount) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2.5 font-mono text-slate-300 text-[11px]">${d.transId || ''}</td>
-            <td class="p-2.5">
-              <span class="px-2 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300 border border-emerald-500/30' : d.status === 'Thất bại' ? 'bg-red-900/80 text-red-300 border border-red-500/30' : 'bg-amber-900/80 text-amber-300 border border-amber-500/30'}">
-                ${d.status || 'Chờ duyệt'}
-              </span>
-            </td>
-            <td class="p-2.5 text-center">
-              ${d.status === 'Chờ duyệt' ? `
-                <div class="flex items-center justify-center gap-1.5">
-                  <button onclick="approveDeposit(${d.id})" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
-                    <i class="fa-solid fa-check"></i> Duyệt cộng tiền
-                  </button>
-                  <button onclick="rejectDeposit(${d.id})" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
-                    <i class="fa-solid fa-xmark"></i> Từ chối
-                  </button>
-                </div>
-              ` : '<span class="text-slate-500 text-[11px]">Đã xử lý</span>'}
-            </td>
-          </tr>
-        `).join('') : '<tr><td colspan="6" class="p-4 text-center text-slate-500">Chưa có yêu cầu nạp ví nào</td></tr>';
-      }
+      document.getElementById('admin-deposits-list').innerHTML = depositListArr.map(d => `
+        <tr>
+          <td class="p-2.5 text-slate-500 text-[11px]">${d.date}</td>
+          <td class="p-2.5 font-bold text-amber-300">${d.user}</td>
+          <td class="p-2.5 font-mono font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
+          <td class="p-2.5 font-mono text-slate-300 text-[11px]">${d.transId}</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
+          <td class="p-2.5 text-center">
+            ${d.status === 'Chờ duyệt' ? `
+              <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold">Duyệt cộng tiền</button>
+              <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Từ chối</button>
+            ` : 'Đã xử lý'}
+          </td>
+        </tr>
+      `).join('');
     }
 
-    // Duyệt & Từ Chối Nạp Ví
     function approveDeposit(id) {
-      const dep = deposits.find(d => d.id === id);
-      if (dep && dep.status === 'Chờ duyệt') {
-        dep.status = 'Thành công';
-        const user = users.find(u => u.username.toLowerCase() === dep.user.toLowerCase());
-        if (user) {
-          user.balance = (Number(user.balance) || 0) + Number(dep.amount);
+      const dep = deposits[id];
+      if (dep) {
+        db.ref(`deposits/${id}/status`).set('Thành công');
+        const targetUser = users[dep.user];
+        if (targetUser) {
+          db.ref(`users/${dep.user}/balance`).set((targetUser.balance || 0) + dep.amount);
         }
-        if (currentUser && currentUser.username.toLowerCase() === dep.user.toLowerCase()) {
-          currentUser.balance = user.balance;
-        }
-        saveData();
-        updateUI();
-        renderAdmin();
-        alert(`Đã duyệt cộng ${(Number(dep.amount)).toLocaleString('vi-VN')}đ cho tài khoản ${dep.user}!`);
       }
     }
 
     function rejectDeposit(id) {
-      const dep = deposits.find(d => d.id === id);
-      if (dep && dep.status === 'Chờ duyệt') {
-        dep.status = 'Thất bại';
-        saveData();
-        renderAdmin();
-      }
+      db.ref(`deposits/${id}/status`).set('Thất bại');
     }
 
-    // Duyệt & Hủy Đơn Nạp Game
     function approveOrder(id) {
-      const ord = orders.find(o => o.id === id);
-      if (ord && ord.status === 'Chờ xử lý') {
-        ord.status = 'Thành công';
-        saveData();
-        renderAdmin();
-        alert(`Đã duyệt thành công đơn nạp game ${ord.game} cho ID ${ord.gameId}!`);
-      }
+      db.ref(`orders/${id}/status`).set('Thành công');
     }
 
     function rejectOrder(id) {
-      const ord = orders.find(o => o.id === id);
-      if (ord && ord.status === 'Chờ xử lý') {
-        ord.status = 'Thất bại';
-        // Hoàn tiền cho user nếu đơn bị hủy
-        const user = users.find(u => u.username.toLowerCase() === ord.user.toLowerCase());
-        if (user) {
-          user.balance = (Number(user.balance) || 0) + Number(ord.price);
+      const ord = orders[id];
+      if (ord) {
+        db.ref(`orders/${id}/status`).set('Thất bại');
+        const targetUser = users[ord.user];
+        if (targetUser) {
+          db.ref(`users/${ord.user}/balance`).set((targetUser.balance || 0) + ord.price);
         }
-        if (currentUser && currentUser.username.toLowerCase() === ord.user.toLowerCase()) {
-          currentUser.balance = user.balance;
-        }
-        saveData();
-        updateUI();
-        renderAdmin();
-        alert(`Đã hủy đơn nạp và hoàn trả ${(Number(ord.price)).toLocaleString('vi-VN')}đ vào ví cho tài khoản ${ord.user}!`);
       }
     }
 
-    // Admin cộng/trừ số dư thủ công
     function handleAdminAdjustBalance(e) {
       e.preventDefault();
-      const targetUsername = document.getElementById('admin-target-user').value.trim();
+      const targetUsername = document.getElementById('admin-target-user').value.trim().toLowerCase();
       const amount = parseInt(document.getElementById('admin-target-amount').value);
 
-      if (!targetUsername || isNaN(amount)) return alert('Vui lòng nhập đầy đủ tên tài khoản và số tiền!');
-
-      const user = users.find(u => u.username.toLowerCase() === targetUsername.toLowerCase());
-      if (!user) {
-        return alert(`Không tìm thấy tài khoản "${targetUsername}" trong hệ thống!`);
+      if (users[targetUsername]) {
+        db.ref(`users/${targetUsername}/balance`).set((users[targetUsername].balance || 0) + amount);
+        alert(`Đã điều chỉnh số dư cho ${targetUsername}!`);
+        e.target.reset();
+      } else {
+        alert('Tài khoản không tồn tại!');
       }
-
-      user.balance = (Number(user.balance) || 0) + amount;
-      if (currentUser && currentUser.username.toLowerCase() === user.username.toLowerCase()) {
-        currentUser.balance = user.balance;
-      }
-
-      saveData();
-      updateUI();
-      renderAdmin();
-      alert(`Thành công! Đã ${amount >= 0 ? 'cộng' : 'trừ'} ${Math.abs(amount).toLocaleString('vi-VN')}đ cho tài khoản ${user.username}. Số dư hiện tại: ${user.balance.toLocaleString('vi-VN')}đ`);
-      e.target.reset();
     }
 
     function updateUI() {
       const navUser = document.getElementById('nav-user');
-      if (!navUser) return;
-
-      if (currentUser) {
-        const me = users.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase()) || currentUser;
-        const balanceVal = (Number(me.balance) || 0).toLocaleString('vi-VN');
-        
-        const syntaxEl = document.getElementById('deposit-syntax');
-        if (syntaxEl) syntaxEl.innerText = `NAP ${me.username}`;
-
+      if (currentUser && users[currentUser.username]) {
+        const me = users[currentUser.username];
         navUser.innerHTML = `
-          <button onclick="switchPage('profile')" class="bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 hover:bg-slate-700 transition">
+          <button onclick="switchPage('profile')" class="bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5">
             <i class="fa-solid fa-wallet text-emerald-400 text-xs"></i>
-            <span class="text-xs font-bold text-emerald-400 font-mono">${balanceVal}đ</span>
-          </button>
-          <button onclick="switchPage('profile')" class="text-xs font-semibold text-slate-200 hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-circle-user text-amber-400 text-sm"></i>${me.username}
+            <span class="text-xs font-bold text-emerald-400 font-mono">${(me.balance || 0).toLocaleString('vi-VN')}đ</span>
           </button>
           ${me.role === 'admin' ? `
-            <button onclick="switchPage('admin')" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black rounded-xl shadow-lg shadow-purple-500/30 flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-user-shield"></i> Trang Admin
-            </button>
+            <button onclick="switchPage('admin')" class="px-3 py-1.5 bg-purple-600 text-white text-xs font-black rounded-xl">Trang Admin</button>
           ` : ''}
         `;
       } else {
-        navUser.innerHTML = `
-          <button onclick="switchPage('auth')" class="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl transition shadow-lg shadow-amber-500/20">
-            <i class="fa-solid fa-right-to-bracket mr-1"></i> Đăng Nhập
-          </button>
-        `;
+        navUser.innerHTML = `<button onclick="switchPage('auth')" class="px-4 py-1.5 bg-amber-500 text-slate-950 font-black text-xs rounded-xl">Đăng Nhập</button>`;
       }
     }
 
-    // ĐỒNG HỒ ĐẾM NGƯỜC BANNER
-    let totalSeconds = 9918;
-    setInterval(() => {
-      if (totalSeconds > 0) {
-        totalSeconds--;
-        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-        const s = String(totalSeconds % 60).padStart(2, '0');
-        const th = document.getElementById('timer-h');
-        const tm = document.getElementById('timer-m');
-        const ts = document.getElementById('timer-s');
-        if (th && tm && ts) {
-          th.innerText = h;
-          tm.innerText = m;
-          ts.innerText = s;
-        }
-      }
-    }, 1000);
-
-    // Khởi tạo giao diện
     updateUI();
-    if (currentUser) {
-      if (currentUser.role === 'admin') {
-        switchPage('admin');
-      } else {
-        switchPage('profile');
-      }
-    } else {
-      switchPage('home');
-    }
   </script>
 </body>
 </html>
