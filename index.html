@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hệ Thống Nạp Game & Ví Điên Tử</title>
+  <title>NAPGAME247 - Hệ Thống Nạp Game Giá Rẻ & Tự Động</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,27 +12,140 @@
   <!-- NAVBAR -->
   <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('shop')">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
         <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-amber-500/20">🎮</div>
         <span class="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">NAPGAME247</span>
       </div>
 
-      <!-- Navigation Links -->
+      <!-- Links Điều hướng -->
       <div id="nav-links" class="hidden md:flex items-center space-x-1 text-sm font-medium">
-        <button onclick="switchPage('shop')" id="nav-shop" class="px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition"><i class="fa-solid fa-gamepad mr-2"></i>Nạp Game</button>
-        <button onclick="switchPage('deposit')" id="nav-deposit" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-wallet mr-2"></i>Nạp Ví</button>
-        <button onclick="switchPage('history')" id="nav-history" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-clock-rotate-left mr-2"></i>Lịch Sử</button>
+        <button onclick="switchPage('home')" id="nav-home" class="px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition"><i class="fa-solid fa-house mr-1.5"></i>Trang Chủ</button>
+        <button onclick="switchPage('shop')" id="nav-shop" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-gamepad mr-1.5"></i>Nạp Game</button>
+        <button onclick="switchPage('deposit')" id="nav-deposit" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-wallet mr-1.5"></i>Nạp Ví</button>
+        <button onclick="switchPage('history')" id="nav-history" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-clock-rotate-left mr-1.5"></i>Lịch Sử</button>
       </div>
 
       <div id="nav-user" class="flex items-center gap-3"></div>
     </div>
   </nav>
 
-  <!-- MAIN CONTENT CONTAINER -->
-  <main class="max-w-5xl mx-auto p-4 flex-1 w-full mt-4">
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-6xl mx-auto p-4 flex-1 w-full">
+
+    <!-- 1. TRANG CHỦ QUẢNG CÁO (HOME PAGE) -->
+    <div id="page-home" class="space-y-10">
+      
+      <!-- HERO BANNER -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-500 p-8 md:p-12 text-slate-950 shadow-2xl shadow-amber-500/10">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <span class="px-3 py-1 bg-slate-950/20 text-slate-950 font-bold text-xs rounded-full uppercase tracking-wider">🔥 Giảm Giá Tới 20% Hôm Nay</span>
+          <h1 class="text-3xl md:text-5xl font-black leading-tight">NẠP GAME GIÁ RẺ<br>TỰ ĐỘNG 24/7 UY TÍN</h1>
+          <p class="text-slate-900 font-medium text-sm md:text-base">Hệ thống nạp Kim Cương, Quân Huy tự động chỉ trong 30 giây. Chiết khấu cao nhất thị trường, bảo mật thông tin tuyệt đối.</p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button onclick="switchPage('shop')" class="px-6 py-3 bg-slate-950 text-amber-400 font-bold rounded-xl hover:bg-slate-900 transition shadow-lg"><i class="fa-solid fa-bolt mr-2"></i>NẠP GAME NGAY</button>
+            <button onclick="switchPage('deposit')" class="px-6 py-3 bg-white/20 hover:bg-white/30 text-slate-950 font-bold rounded-xl transition border border-slate-950/20"><i class="fa-solid fa-wallet mr-2"></i>NẠP VÍ SỐ DƯ</button>
+          </div>
+        </div>
+        <!-- Họa tiết trang trí -->
+        <div class="absolute -right-10 -bottom-10 text-slate-950/10 text-9xl font-black pointer-events-none select-none">🎮</div>
+      </div>
+
+      <!-- DÒNG THÔNG BÁO ĐƠN HÀNG VỪA THÀNH CÔNG (LIVE FEED) -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center gap-3 overflow-hidden">
+        <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0"><i class="fa-solid fa-circle-check"></i> Vừa Nạp</span>
+        <marquee class="text-xs text-slate-300 font-mono">
+          <span class="mx-4 text-amber-400">User ***8821 vừa nạp 580 Kim Cương Free Fire</span> | 
+          <span class="mx-4 text-amber-400">User ***0192 vừa nạp 280 Quân Huy Liên Quân</span> | 
+          <span class="mx-4 text-emerald-400">User ***3321 vừa nạp +100.000đ vào Ví</span>
+        </marquee>
+      </div>
+
+      <!-- DANH MỤC GAME NỔI BẬT -->
+      <div>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-fire text-amber-500"></i> Danh Mục Game Hot</h2>
+          <button onclick="switchPage('shop')" class="text-xs text-amber-400 hover:underline">Xem tất cả <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          
+          <!-- Game Card 1 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-14 h-14 bg-amber-500/10 rounded-2xl border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold">🔥</div>
+                <span class="px-2.5 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded-full">-10% Hot</span>
+              </div>
+              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Free Fire</h3>
+              <p class="text-xs text-slate-400 mt-1">Nạp Kim Cương qua Player ID trực tiếp vào tài khoản.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+              <span class="text-xs text-slate-500">Từ 20.000đ</span>
+              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
+            </div>
+          </div>
+
+          <!-- Game Card 2 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-14 h-14 bg-blue-500/10 rounded-2xl border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl font-bold">⚔️</div>
+                <span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full">Khuyên Dùng</span>
+              </div>
+              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Liên Quân Mobile</h3>
+              <p class="text-xs text-slate-400 mt-1">Nạp Quân Huy an toàn, bảo hành tài khoản 100%.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+              <span class="text-xs text-slate-500">Từ 20.000đ</span>
+              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
+            </div>
+          </div>
+
+          <!-- Game Card 3 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/50 transition group flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl font-bold">✨</div>
+                <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full">Tự Động</span>
+              </div>
+              <h3 class="font-bold text-lg text-white group-hover:text-amber-400 transition">Genshin Impact</h3>
+              <p class="text-xs text-slate-400 mt-1">Nạp Đá Sáng Thế / Thẻ Tháng giá tốt nhất thị trường.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+              <span class="text-xs text-slate-500">Từ 50.000đ</span>
+              <button onclick="switchPage('shop')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition">Nạp Ngay</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TẠI SAO CHỌN CHÚNG TÔI -->
+      <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-8">
+        <h2 class="text-xl font-bold text-center text-amber-400 mb-8">💡 Tại Sao Nên Chọn NAPGAME247?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div class="space-y-2">
+            <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-bolt"></i></div>
+            <h4 class="font-bold text-white">Nạp Siêu Tốc</h4>
+            <p class="text-xs text-slate-400">Xử lý đơn hàng hoàn toàn tự động trong 30 giây đến 3 phút.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-shield-halved"></i></div>
+            <h4 class="font-bold text-white">An Toàn 100%</h4>
+            <p class="text-xs text-slate-400">Nạp qua ID game chính chủ, không yêu cầu mật khẩu tài khoản.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-headset"></i></div>
+            <h4 class="font-bold text-white">Hỗ Trợ 24/7</h4>
+            <p class="text-xs text-slate-400">Đội ngũ kỹ thuật hỗ trợ đối soát đơn hàng mọi lúc mọi nơi.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <!-- TAB 0: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ) -->
-    <div id="page-auth" class="max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
+    <div id="page-auth" class="hidden max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl my-8">
       <div class="flex border-b border-slate-800 mb-6">
         <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2 font-bold text-amber-400 border-b-2 border-amber-400">Đăng Nhập</button>
         <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2 font-bold text-slate-400">Đăng Ký</button>
@@ -63,7 +176,7 @@
       </form>
     </div>
 
-    <!-- TAB 1: PHẦN SHOP NẠP GAME -->
+    <!-- TAB 1: SHOP NẠP GAME -->
     <div id="page-shop" class="hidden space-y-6">
       <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 p-6 rounded-2xl border border-amber-500/20 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
@@ -121,9 +234,8 @@
       </div>
     </div>
 
-    <!-- TAB 2: PHẦN NẠP VÍ -->
+    <!-- TAB 2: NẠP VÍ -->
     <div id="page-deposit" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Thông tin Ngân hàng -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-amber-400 mb-4"><i class="fa-solid fa-building-columns mr-2"></i>Chuyển Khoản Ngân Hàng</h3>
         <div class="space-y-3 text-sm bg-slate-950/50 p-4 rounded-xl border border-slate-800">
@@ -137,7 +249,6 @@
         </div>
       </div>
 
-      <!-- Form xác nhận chuyển khoản -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-emerald-400 mb-4"><i class="fa-solid fa-paper-plane mr-2"></i>Xác Nhận Đã Chuyển Tiền</h3>
         <form onsubmit="handleDepositRequest(event)" class="space-y-4">
@@ -146,17 +257,16 @@
             <input type="number" id="dep-amount" required min="10000" placeholder="Ví dụ: 50000" class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-emerald-400 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Mã Giao Dịch Ngân Hàng (Mã FT / GD)</label>
-            <input type="text" id="dep-transid" required placeholder="Nhập mã giao dịch ngân hàng..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-emerald-400 text-sm">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Mã Giao Dịch Ngân Hàng</label>
+            <input type="text" id="dep-transid" required placeholder="Nhập mã giao dịch..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 focus:outline-none focus:border-emerald-400 text-sm">
           </div>
           <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition">GỬI YÊU CẦU CỘNG TIỀN</button>
         </form>
       </div>
     </div>
 
-    <!-- TAB 3: PHẦN LỊCH SỬ GIAO DỊCH -->
+    <!-- TAB 3: LỊCH SỬ GIAO DỊCH -->
     <div id="page-history" class="hidden space-y-6">
-      <!-- Lịch sử nạp game -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-amber-400 mb-4"><i class="fa-solid fa-gamepad mr-2"></i>Lịch Sử Nạp Game</h3>
         <div class="overflow-x-auto">
@@ -176,7 +286,6 @@
         </div>
       </div>
 
-      <!-- Lịch sử nạp ví -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-lg font-bold text-emerald-400 mb-4"><i class="fa-solid fa-wallet mr-2"></i>Lịch Sử Nạp Ví</h3>
         <div class="overflow-x-auto">
@@ -195,14 +304,13 @@
       </div>
     </div>
 
-    <!-- TAB 4: PHẦN ADMIN QUẢN TRỊ (ẨN) -->
+    <!-- TAB 4: ADMIN QUẢN TRỊ (ẨN) -->
     <div id="page-admin" class="hidden space-y-6">
       <div class="flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
         <h2 class="text-xl font-bold text-purple-400"><i class="fa-solid fa-user-shield mr-2"></i>Bảng Quản Trị Hệ Thống</h2>
-        <button onclick="switchPage('shop')" class="text-xs px-3 py-1.5 bg-slate-800 rounded hover:bg-slate-700">Thoát Admin</button>
+        <button onclick="switchPage('home')" class="text-xs px-3 py-1.5 bg-slate-800 rounded hover:bg-slate-700">Thoát Admin</button>
       </div>
 
-      <!-- Duyệt Nạp Ví -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-base font-bold text-emerald-400 mb-3">Duyệt Yêu Cầu Nạp Ví (Cộng Số Dư)</h3>
         <div class="overflow-x-auto">
@@ -221,7 +329,6 @@
         </div>
       </div>
 
-      <!-- Duyệt Nạp Game -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h3 class="text-base font-bold text-amber-400 mb-3">Duyệt Đơn Nạp Game</h3>
         <div class="overflow-x-auto">
@@ -244,7 +351,6 @@
   </main>
 
   <script>
-    // Dữ liệu Lưu trữ
     let users = JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
     let orders = JSON.parse(localStorage.getItem('orders')) || [];
     let deposits = JSON.parse(localStorage.getItem('deposits')) || [];
@@ -257,19 +363,19 @@
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
 
-    // Chuyển trang (Single Page Navigation)
     function switchPage(page) {
-      if (!currentUser && page !== 'auth') page = 'auth';
+      if (!currentUser && (page === 'shop' || page === 'deposit' || page === 'history' || page === 'admin')) {
+        page = 'auth';
+      }
 
-      ['auth', 'shop', 'deposit', 'history', 'admin'].forEach(p => {
+      ['home', 'auth', 'shop', 'deposit', 'history', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
         if (el) el.classList.add('hidden');
       });
 
       document.getElementById(`page-${page}`).classList.remove('hidden');
 
-      // Update navbar styling
-      ['shop', 'deposit', 'history'].forEach(p => {
+      ['home', 'shop', 'deposit', 'history'].forEach(p => {
         const btn = document.getElementById(`nav-${p}`);
         if (btn) {
           if (p === page) {
@@ -331,10 +437,9 @@
       currentUser = null;
       saveData();
       updateUI();
-      switchPage('auth');
+      switchPage('home');
     }
 
-    // Xử lý nạp game bằng Số dư ví
     function handleGameOrder(e) {
       e.preventDefault();
       const game = document.getElementById('shop-game').value;
@@ -343,11 +448,9 @@
       const pkgName = selectedPkg[0];
       const price = parseInt(selectedPkg[1]);
 
-      // Refresh current user balance
       const me = users.find(u => u.username === currentUser.username);
-      if (me.balance < price) return alert('Số dư ví không đủ! Vui lòng vào mục "Nạp Ví" để cộng thêm tiền.');
+      if (me.balance < price) return alert('Số dư ví không đủ! Vui lòng vào mục "Nạp Ví" để cộng tiền.');
 
-      // Trừ tiền ngay lập tức
       me.balance -= price;
       currentUser.balance = me.balance;
 
@@ -364,11 +467,10 @@
 
       saveData();
       updateUI();
-      alert('Tạo đơn nạp thành công! Admin sẽ duyệt và cộng vật phẩm trong game cho bạn.');
+      alert('Tạo đơn nạp thành công!');
       e.target.reset();
     }
 
-    // Xử lý gửi yêu cầu nạp ví
     function handleDepositRequest(e) {
       e.preventDefault();
       const amount = parseInt(document.getElementById('dep-amount').value);
@@ -384,12 +486,11 @@
       });
 
       saveData();
-      alert('Đã gửi yêu cầu nạp tiền! Admin sẽ đối soát và cộng tiền vào ví cho bạn.');
+      alert('Đã gửi yêu cầu nạp tiền vào ví!');
       e.target.reset();
       switchPage('history');
     }
 
-    // Hiển thị Lịch sử
     function renderHistory() {
       const myOrders = orders.filter(o => o.user === currentUser.username);
       const myDeposits = deposits.filter(d => d.user === currentUser.username);
@@ -415,7 +516,6 @@
       `).join('') : '<tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có lịch sử nạp ví</td></tr>';
     }
 
-    // Hiển thị Admin
     function renderAdmin() {
       document.getElementById('admin-deposits-list').innerHTML = deposits.map(d => `
         <tr>
@@ -448,7 +548,7 @@
         dep.status = 'Thành công';
         const user = users.find(u => u.username === dep.user);
         if (user) user.balance += dep.amount;
-        if (currentUser.username === user.username) currentUser.balance = user.balance;
+        if (currentUser && currentUser.username === user.username) currentUser.balance = user.balance;
         saveData();
         updateUI();
         renderAdmin();
@@ -464,16 +564,14 @@
       }
     }
 
-    // Cập nhật Navbar & Trạng thái người dùng
     function updateUI() {
       const navUser = document.getElementById('nav-user');
       const navLinks = document.getElementById('nav-links');
 
+      navLinks.classList.remove('hidden');
+
       if (currentUser) {
-        // Đồng bộ số dư
         const me = users.find(u => u.username === currentUser.username) || currentUser;
-        
-        navLinks.classList.remove('hidden');
         document.getElementById('deposit-syntax').innerText = `NAP ${me.username}`;
 
         navUser.innerHTML = `
@@ -486,15 +584,14 @@
           <button onclick="logout()" class="p-2 text-slate-400 hover:text-red-400 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
         `;
       } else {
-        navLinks.classList.add('hidden');
-        navUser.innerHTML = `<span class="text-xs text-slate-500">Chưa đăng nhập</span>`;
+        navUser.innerHTML = `
+          <button onclick="switchPage('auth')" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition">Đăng Nhập / Đăng Ký</button>
+        `;
       }
     }
 
-    // Khởi chạy ban đầu
     updateUI();
-    if (currentUser) switchPage('shop');
-    else switchPage('auth');
+    switchPage('home');
   </script>
 </body>
 </html>
