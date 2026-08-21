@@ -90,17 +90,25 @@
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-xl font-black text-slate-950"><i class="fa-solid fa-user"></i></div>
             <div>
-              <h2 id="profile-username" class="text-xl font-bold text-white">Tên Tài Khoản</h2>
+              <h2 id="profile-username" class="text-xl font-bold text-white">Đang tải...</h2>
               <span id="profile-role" class="px-2 py-0.5 bg-slate-800 text-slate-400 text-[10px] font-semibold rounded-full border border-slate-700">Thành Viên</span>
             </div>
           </div>
           <button onclick="logout()" class="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold"><i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất</button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
           <div class="bg-slate-950/60 border border-emerald-500/30 p-4 rounded-xl">
             <p class="text-xs text-slate-400 mb-1">💳 Số Dư Ví</p>
             <p id="profile-balance" class="text-xl font-black text-emerald-400 font-mono">0đ</p>
+          </div>
+          <div class="bg-slate-950/60 border border-blue-500/30 p-4 rounded-xl">
+            <p class="text-xs text-slate-400 mb-1">📥 Tổng Nạp Ví</p>
+            <p id="profile-total-deposit" class="text-xl font-black text-blue-400 font-mono">0đ</p>
+          </div>
+          <div class="bg-slate-950/60 border border-amber-500/30 p-4 rounded-xl">
+            <p class="text-xs text-slate-400 mb-1">🛍️ Đơn Đã Mua</p>
+            <p id="profile-total-orders" class="text-xl font-black text-amber-400 font-mono">0 đơn</p>
           </div>
         </div>
 
@@ -303,19 +311,21 @@
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
       }
       updateUI();
-      if (!document.getElementById('page-profile').classList.contains('hidden')) renderProfile();
+      renderProfile();
     });
 
     db.ref('orders').on('value', (snap) => {
       orders = snap.val() || {};
       renderHistory();
       renderAdmin();
+      renderProfile();
     });
 
     db.ref('deposits').on('value', (snap) => {
       deposits = snap.val() || {};
       renderHistory();
       renderAdmin();
+      renderProfile();
     });
 
     function switchPage(page) {
@@ -408,17 +418,21 @@
       const u = document.getElementById('login-username').value.trim().toLowerCase();
       const p = document.getElementById('login-password').value;
 
-      if (users[u] && users[u].password === p) {
-        currentUser = users[u];
-        // Ép lại quyền admin nếu tài khoản tên là admin
-        if (u === 'admin' && currentUser.role !== 'admin') {
-          currentUser.role = 'admin';
+      let foundUser = users[u];
+      if (!foundUser) {
+        return alert('Tài khoản chưa được đăng ký! Vui lòng chọn tab ĐĂNG KÝ để tạo.');
+      }
+
+      if (foundUser.password === p) {
+        if (u === 'admin' && foundUser.role !== 'admin') {
+          foundUser.role = 'admin';
           db.ref(`users/admin/role`).set('admin');
         }
+        currentUser = foundUser;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         switchPage(currentUser.role === 'admin' ? 'admin' : 'profile');
       } else {
-        alert('Tài khoản chưa được đăng ký hoặc sai mật khẩu! Vui lòng chọn tab ĐĂNG KÝ để tạo.');
+        alert('Sai mật khẩu!');
       }
     }
 
@@ -430,23 +444,45 @@
     }
 
     function renderProfile() {
-      const userObj = currentUser ? (users[currentUser.username] || currentUser) : null;
-      if (!userObj) return;
+      if (!currentUser) return;
+      const me = users[currentUser.username] || currentUser;
+      
+      const elUser = document.getElementById('profile-username');
+      const elRole = document.getElementById('profile-role');
+      const elBal = document.getElementById('profile-balance');
+      const elTotalDep = document.getElementById('profile-total-deposit');
+      const elTotalOrd = document.getElementById('profile-total-orders');
+      const elAdminBtn = document.getElementById('admin-access-btn-container');
 
-      document.getElementById('profile-username').innerText = userObj.username;
-      document.getElementById('profile-role').innerText = userObj.role === 'admin' ? 'Quản Trị Viên' : 'Thành Viên';
-      document.getElementById('profile-balance').innerText = `${(userObj.balance || 0).toLocaleString('vi-VN')}đ`;
+      if (elUser) elUser.innerText = me.username;
+      if (elRole) {
+        elRole.innerText = me.role === 'admin' ? 'Quản Trị Viên' : 'Thành Viên';
+        if (me.role === 'admin') {
+          elRole.className = "px-2.5 py-0.5 bg-purple-500/20 text-purple-300 text-[10px] font-semibold rounded-full border border-purple-500/30";
+        }
+      }
+      if (elBal) elBal.innerText = `${(me.balance || 0).toLocaleString('vi-VN')}đ`;
 
-      if (userObj.role === 'admin') {
-        document.getElementById('admin-access-btn-container').classList.remove('hidden');
-      } else {
-        document.getElementById('admin-access-btn-container').classList.add('hidden');
+      const myOrders = Object.values(orders).filter(o => o.user === me.username);
+      const myDeposits = Object.values(deposits).filter(d => d.user === me.username && d.status === 'Thành công');
+      
+      const totalDepAmount = myDeposits.reduce((sum, d) => sum + d.amount, 0);
+      if (elTotalDep) elTotalDep.innerText = `${totalDepAmount.toLocaleString('vi-VN')}đ`;
+      if (elTotalOrd) elTotalOrd.innerText = `${myOrders.length} đơn`;
+
+      if (elAdminBtn) {
+        if (me.role === 'admin') {
+          elAdminBtn.classList.remove('hidden');
+        } else {
+          elAdminBtn.classList.add('hidden');
+        }
       }
     }
 
     function handleGameOrder(e) {
       e.preventDefault();
-      const me = users[currentUser.username];
+      if (!currentUser) return switchPage('auth');
+      const me = users[currentUser.username] || currentUser;
       const gameId = document.getElementById('shop-gameid').value;
 
       if ((me.balance || 0) < selectedPackage.price) return alert('Số dư ví không đủ!');
@@ -467,6 +503,7 @@
 
     function handleDepositRequest(e) {
       e.preventDefault();
+      if (!currentUser) return switchPage('auth');
       const amount = parseInt(document.getElementById('dep-amount').value);
       const transId = document.getElementById('dep-transid').value;
 
@@ -486,64 +523,79 @@
       const myOrders = Object.values(orders).filter(o => o.user === currentUser.username);
       const myDeposits = Object.values(deposits).filter(d => d.user === currentUser.username);
 
-      document.getElementById('history-game-list').innerHTML = myOrders.map(o => `
-        <tr>
-          <td class="p-2.5 text-slate-500">${o.date}</td>
-          <td class="p-2.5 font-semibold">${o.game}</td>
-          <td class="p-2.5 font-mono text-amber-300">${o.gameId}</td>
-          <td class="p-2.5">${o.package}</td>
-          <td class="p-2.5 font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
-          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
-        </tr>
-      `).join('');
+      const orderListEl = document.getElementById('history-game-list');
+      const walletListEl = document.getElementById('history-wallet-list');
 
-      document.getElementById('history-wallet-list').innerHTML = myDeposits.map(d => `
-        <tr>
-          <td class="p-2.5 text-slate-500">${d.date}</td>
-          <td class="p-2.5 font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
-          <td class="p-2.5 font-mono text-slate-400">${d.transId}</td>
-          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
-        </tr>
-      `).join('');
+      if (orderListEl) {
+        orderListEl.innerHTML = myOrders.map(o => `
+          <tr>
+            <td class="p-2.5 text-slate-500">${o.date}</td>
+            <td class="p-2.5 font-semibold">${o.game}</td>
+            <td class="p-2.5 font-mono text-amber-300">${o.gameId}</td>
+            <td class="p-2.5">${o.package}</td>
+            <td class="p-2.5 font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
+          </tr>
+        `).join('');
+      }
+
+      if (walletListEl) {
+        walletListEl.innerHTML = myDeposits.map(d => `
+          <tr>
+            <td class="p-2.5 text-slate-500">${d.date}</td>
+            <td class="p-2.5 font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5 font-mono text-slate-400">${d.transId}</td>
+            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
+          </tr>
+        `).join('');
+      }
     }
 
     function renderAdmin() {
+      if (!currentUser || currentUser.role !== 'admin') return;
       const orderListArr = Object.values(orders);
       const depositListArr = Object.values(deposits);
 
-      document.getElementById('admin-orders-list').innerHTML = orderListArr.map(o => `
-        <tr>
-          <td class="p-2.5 text-slate-500 text-[11px]">${o.date}</td>
-          <td class="p-2.5 font-bold text-amber-300">${o.user}</td>
-          <td class="p-2.5 font-semibold text-white">${o.game}</td>
-          <td class="p-2.5 font-mono text-amber-400">${o.gameId}</td>
-          <td class="p-2.5 text-slate-200">${o.package}</td>
-          <td class="p-2.5 font-mono font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
-          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
-          <td class="p-2.5 text-center">
-            ${o.status === 'Chờ xử lý' ? `
-              <button onclick="approveOrder('${o.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold">Duyệt</button>
-              <button onclick="rejectOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Hủy</button>
-            ` : 'Đã xử lý'}
-          </td>
-        </tr>
-      `).join('');
+      const adminOrdersEl = document.getElementById('admin-orders-list');
+      const adminDepositsEl = document.getElementById('admin-deposits-list');
 
-      document.getElementById('admin-deposits-list').innerHTML = depositListArr.map(d => `
-        <tr>
-          <td class="p-2.5 text-slate-500 text-[11px]">${d.date}</td>
-          <td class="p-2.5 font-bold text-amber-300">${d.user}</td>
-          <td class="p-2.5 font-mono font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
-          <td class="p-2.5 font-mono text-slate-300 text-[11px]">${d.transId}</td>
-          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
-          <td class="p-2.5 text-center">
-            ${d.status === 'Chờ duyệt' ? `
-              <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold">Duyệt cộng tiền</button>
-              <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Từ chối</button>
-            ` : 'Đã xử lý'}
-          </td>
-        </tr>
-      `).join('');
+      if (adminOrdersEl) {
+        adminOrdersEl.innerHTML = orderListArr.map(o => `
+          <tr>
+            <td class="p-2.5 text-slate-500 text-[11px]">${o.date}</td>
+            <td class="p-2.5 font-bold text-amber-300">${o.user}</td>
+            <td class="p-2.5 font-semibold text-white">${o.game}</td>
+            <td class="p-2.5 font-mono text-amber-400">${o.gameId}</td>
+            <td class="p-2.5 text-slate-200">${o.package}</td>
+            <td class="p-2.5 font-mono font-bold text-emerald-400">${o.price.toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${o.status}</span></td>
+            <td class="p-2.5 text-center">
+              ${o.status === 'Chờ xử lý' ? `
+                <button onclick="approveOrder('${o.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold mr-1">Duyệt</button>
+                <button onclick="rejectOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Hủy</button>
+              ` : 'Đã xử lý'}
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      if (adminDepositsEl) {
+        adminDepositsEl.innerHTML = depositListArr.map(d => `
+          <tr>
+            <td class="p-2.5 text-slate-500 text-[11px]">${d.date}</td>
+            <td class="p-2.5 font-bold text-amber-300">${d.user}</td>
+            <td class="p-2.5 font-mono font-bold text-emerald-400">+${d.amount.toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5 font-mono text-slate-300 text-[11px]">${d.transId}</td>
+            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-900/80 text-amber-300">${d.status}</span></td>
+            <td class="p-2.5 text-center">
+              ${d.status === 'Chờ duyệt' ? `
+                <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 text-[10px] rounded text-white font-bold mr-1">Duyệt</button>
+                <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 text-[10px] rounded text-white font-bold">Từ chối</button>
+              ` : 'Đã xử lý'}
+            </td>
+          </tr>
+        `).join('');
+      }
     }
 
     function approveDeposit(id) {
@@ -595,6 +647,12 @@
       }
     }
 
+    // Tự động chuyển trang chủ hoặc trang profile khi mới mở web
+    if (currentUser) {
+      switchPage('profile');
+    } else {
+      switchPage('home');
+    }
     updateUI();
   </script>
 </body>
