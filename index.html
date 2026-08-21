@@ -13,7 +13,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col">
 
-  <!-- NAVBAR TOP -->
+  <!-- NAVBAR TOP (Desktop) -->
   <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2 cursor-pointer" onclick="switchPage('home')">
@@ -21,6 +21,7 @@
         <span class="text-lg md:text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">NAPGAME247</span>
       </div>
 
+      <!-- Menu PC -->
       <div id="nav-links" class="hidden md:flex items-center space-x-1 text-sm font-medium">
         <button onclick="switchPage('home')" id="nav-home" class="px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition"><i class="fa-solid fa-house mr-1.5"></i>Trang Chủ</button>
         <button onclick="switchPage('shop')" id="nav-shop" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-gamepad mr-1.5"></i>Nạp Game</button>
@@ -130,7 +131,7 @@
       <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Tài khoản</label>
-          <input type="text" id="login-username" required placeholder="Nhập tài khoản (admin)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none">
+          <input type="text" id="login-username" required placeholder="Nhập tài khoản..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Mật khẩu</label>
@@ -272,6 +273,25 @@
 
   </main>
 
+  <!-- BOTTOM NAVIGATION FOR MOBILE -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur border-t border-slate-800 z-50 flex justify-around py-2.5 px-2 text-[10px] font-medium text-slate-400">
+    <button onclick="switchPage('home')" id="mob-home" class="flex flex-col items-center gap-1 text-amber-400 font-bold">
+      <i class="fa-solid fa-house text-base"></i><span>Trang Chủ</span>
+    </button>
+    <button onclick="switchPage('shop')" id="mob-shop" class="flex flex-col items-center gap-1 hover:text-white">
+      <i class="fa-solid fa-gamepad text-base"></i><span>Nạp Game</span>
+    </button>
+    <button onclick="switchPage('deposit')" id="mob-deposit" class="flex flex-col items-center gap-1 hover:text-white">
+      <i class="fa-solid fa-wallet text-base"></i><span>Nạp Ví</span>
+    </button>
+    <button onclick="switchPage('profile')" id="mob-profile" class="flex flex-col items-center gap-1 hover:text-white">
+      <i class="fa-solid fa-user-gear text-base"></i><span>Tài Khoản</span>
+    </button>
+    <button onclick="switchPage('history')" id="mob-history" class="flex flex-col items-center gap-1 hover:text-white">
+      <i class="fa-solid fa-clock-rotate-left text-base"></i><span>Lịch Sử</span>
+    </button>
+  </div>
+
   <script>
     const firebaseConfig = {
       databaseURL: "https://napgame247-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -338,6 +358,22 @@
 
       const target = document.getElementById(`page-${page}`);
       if (target) target.classList.remove('hidden');
+
+      // Update active states for both Desktop & Mobile navigation
+      ['home', 'shop', 'deposit', 'profile', 'history'].forEach(p => {
+        const deskBtn = document.getElementById(`nav-${p}`);
+        const mobBtn = document.getElementById(`mob-${p}`);
+        if (deskBtn) {
+          deskBtn.className = (p === page) 
+            ? "px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80 transition" 
+            : "px-4 py-2 rounded-lg text-slate-400 hover:text-white transition";
+        }
+        if (mobBtn) {
+          mobBtn.className = (p === page) 
+            ? "flex flex-col items-center gap-1 text-amber-400 font-bold" 
+            : "flex flex-col items-center gap-1 text-slate-400 hover:text-white";
+        }
+      });
 
       if (page === 'shop') renderShopUI();
       if (page === 'profile') renderProfile();
@@ -647,7 +683,6 @@
       }
     }
 
-    // Tự động chuyển trang chủ hoặc trang profile khi mới mở web
     if (currentUser) {
       switchPage('profile');
     } else {
