@@ -3,84 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NAPGAME247 - Hệ Thống Nạp Game Tự Động</title>
-  <!-- Nhúng file CSS riêng -->
+  <title>NAPGAME247 - Hệ Thống Nạp Game Tự Động 24/7</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Thanh Header (Nhấn 5 lần vào Logo để kích hoạt Admin ẩn) -->
+  <!-- Thanh Header Header (Click 5 lần vào Logo để mở Admin) -->
   <header class="header">
-    <div class="logo" id="siteLogo">⚡ NAPGAME247</div>
-    <div class="header-title">Hệ Thống Nạp Game Tự Động 24/7</div>
+    <div class="logo-container" id="siteLogo">
+      <i class="fa-solid fa-bolt logo-icon"></i>
+      <span class="logo-text">NAPGAME247</span>
+    </div>
+    <div class="header-info">
+      <span class="status-online"><i class="fa-solid fa-circle"></i> Hệ thống hoạt động 24/7</span>
+    </div>
   </header>
 
-  <!-- Form Nạp Game dành cho khách hàng -->
-  <main class="container">
-    <h2>Nạp Game Tự Động</h2>
-    <form id="orderForm">
-      <div class="form-group">
-        <label for="userAccount">Tài Khoản / ID Game:</label>
-        <input type="text" id="userAccount" placeholder="Nhập ID hoặc tên tài khoản" required>
-      </div>
+  <!-- Thông báo chạy chữ -->
+  <div class="announcement">
+    <i class="fa-solid fa-bullhorn"></i>
+    <span>Thông báo: Chiết khấu 10% cho tất cả đơn nạp qua Chuyển khoản ATM / MoMo hôm nay!</span>
+  </div>
 
+  <main class="main-container">
+    
+    <!-- Bước 1: Chọn Game -->
+    <section class="section-card">
+      <div class="section-title">
+        <span class="step-num">1</span>
+        <h3>Chọn Game Cần Nạp</h3>
+      </div>
+      <div class="game-grid">
+        <div class="game-card active" data-game="Liên Quân Mobile">
+          <div class="game-icon"><i class="fa-solid fa-gamepad"></i></div>
+          <span>Liên Quân Mobile</span>
+        </div>
+        <div class="game-card" data-game="Free Fire">
+          <div class="game-icon"><i class="fa-solid fa-crosshairs"></i></div>
+          <span>Free Fire</span>
+        </div>
+        <div class="game-card" data-game="Genshin Impact">
+          <div class="game-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <span>Genshin Impact</span>
+        </div>
+        <div class="game-card" data-game="PUBG Mobile">
+          <div class="game-icon"><i class="fa-solid fa-gun"></i></div>
+          <span>PUBG Mobile</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bước 2: Nhập Tài Khoản / ID -->
+    <section class="section-card">
+      <div class="section-title">
+        <span class="step-num">2</span>
+        <h3>Nhập Thông Tin Tài Khoản</h3>
+      </div>
       <div class="form-group">
-        <label for="gameType">Chọn Game:</label>
-        <select id="gameType">
-          <option value="Liên Quân Mobile">Liên Quân Mobile</option>
-          <option value="Free Fire">Free Fire</option>
-          <option value="Genshin Impact">Genshin Impact</option>
+        <label for="userAccount">Tài khoản / ID Game <span class="required">*</span></label>
+        <input type="text" id="userAccount" placeholder="Nhập ID Game hoặc Tên Tài Khoản" required>
+      </div>
+      <div class="form-group">
+        <label for="serverSelect">Máy chủ (Server):</label>
+        <select id="serverSelect">
+          <option value="Mặc định / Việt Nam">Server Việt Nam</option>
+          <option value="Quốc Tế">Server Quốc Tế</option>
         </select>
       </div>
+    </section>
 
-      <div class="form-group">
-        <label for="packageType">Chọn Gói Nạp:</label>
-        <select id="packageType">
-          <option value="100 Quân Huy/KC">100 Quân Huy / Kim Cương (20.000đ)</option>
-          <option value="500 Quân Huy/KC">500 Quân Huy / Kim Cương (100.000đ)</option>
-          <option value="1000 Quân Huy/KC">1000 Quân Huy / Kim Cương (200.000đ)</option>
-        </select>
+    <!-- Bước 3: Chọn Gói Nạp -->
+    <section class="section-card">
+      <div class="section-title">
+        <span class="step-num">3</span>
+        <h3>Chọn Gói Nạp</h3>
+      </div>
+      <div class="package-grid">
+        <div class="package-card active" data-pkg="100 Quân Huy / Kim Cương" data-price="20.000đ">
+          <div class="pkg-name">100 Quân Huy / KC</div>
+          <div class="pkg-price">20.000đ</div>
+        </div>
+        <div class="package-card" data-pkg="280 Quân Huy / Kim Cương" data-price="50.000đ">
+          <div class="pkg-name">280 Quân Huy / KC</div>
+          <div class="pkg-price">50.000đ</div>
+        </div>
+        <div class="package-card" data-pkg="600 Quân Huy / Kim Cương" data-price="100.000đ">
+          <div class="pkg-name">600 Quân Huy / KC</div>
+          <div class="pkg-price">100.000đ</div>
+          <span class="badge">Bán Chạy</span>
+        </div>
+        <div class="package-card" data-pkg="1.300 Quân Huy / Kim Cương" data-price="200.000đ">
+          <div class="pkg-name">1.300 Quân Huy / KC</div>
+          <div class="pkg-price">200.000đ</div>
+        </div>
+        <div class="package-card" data-pkg="3.400 Quân Huy / Kim Cương" data-price="500.000đ">
+          <div class="pkg-name">3.400 Quân Huy / KC</div>
+          <div class="pkg-price">500.000đ</div>
+          <span class="badge promo">Ưu Đãi lớn</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bước 4: Chọn Thanh Toán & Nạp -->
+    <section class="section-card">
+      <div class="section-title">
+        <span class="step-num">4</span>
+        <h3>Phương Thức Thanh Toán</h3>
+      </div>
+      <div class="payment-methods">
+        <label class="pay-option active">
+          <input type="radio" name="payment" value="ATM/Momo" checked>
+          <span>ATM / Ví MoMo (Tự động)</span>
+        </label>
+        <label class="pay-option">
+          <input type="radio" name="payment" value="Thẻ Cào">
+          <span>Thẻ Cào Điện Thoại</span>
+        </label>
       </div>
 
-      <button type="submit" class="btn-submit">Gửi Đơn Nạp</button>
-    </form>
+      <button type="button" class="btn-submit" id="submitOrderBtn">
+        <i class="fa-solid fa-cart-shopping"></i> XÁC NHẬN NẠP NGAY
+      </button>
+    </section>
+
   </main>
 
-  <!-- Khung Admin Modal (Mặc định ẩn) -->
+  <!-- Khung Admin Modal (Ẩn mặc định) -->
   <div id="adminModal" class="admin-modal" style="display: none;">
     <div class="admin-content">
       <div class="admin-header">
-        <h3>Quản Lý Đơn Hàng (Admin)</h3>
+        <h3><i class="fa-solid fa-user-shield"></i> Bảng Quản Lý Đơn Hàng (Admin)</h3>
         <button class="close-btn" onclick="closeAdmin()">✕</button>
       </div>
       
-      <!-- Màn hình xác thực mã PIN Admin -->
+      <!-- Màn hình xác thực mã PIN -->
       <div id="adminAuth">
-        <p>Nhập mã PIN quản trị viên:</p>
-        <input type="password" id="adminPin" placeholder="Mật khẩu Admin (Ví dụ: 123456)">
-        <button class="btn-submit" onclick="verifyAdmin()" style="margin-top: 10px;">Xác nhận</button>
+        <p style="margin-bottom: 12px;">Nhập mã PIN quản trị viên:</p>
+        <input type="password" id="adminPin" placeholder="Mật khẩu Admin (Mặc định: 123456)">
+        <button class="btn-submit" onclick="verifyAdmin()" style="margin-top: 12px;">Xác Nhận</button>
       </div>
 
       <!-- Bảng danh sách đơn hàng -->
       <div id="adminPanel" style="display: none;">
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đơn</th>
-              <th>Tài khoản</th>
-              <th>Loại Game</th>
-              <th>Gói nạp</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody id="orderTableBody"></tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã Đơn</th>
+                <th>Tài Khoản / ID</th>
+                <th>Game</th>
+                <th>Gói Nạp</th>
+                <th>Thanh Toán</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Nhúng file JavaScript riêng -->
   <script src="script.js"></script>
 </body>
 </html>
