@@ -285,14 +285,17 @@
         <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2 font-bold text-slate-400 text-sm">Đăng Ký</button>
       </div>
 
+      <!-- KHUNG THÔNG BÁO THÔNG TIN DỄ QUAN SÁT -->
+      <div id="auth-alert" class="hidden mb-4 p-3 rounded-xl text-xs font-bold text-center border"></div>
+
       <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Tài khoản</label>
-          <input type="text" id="login-username" required placeholder="Nhập tài khoản..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="login-username" required placeholder="Tài khoản (mặc định: admin)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Mật khẩu</label>
-          <input type="password" id="login-password" required placeholder="Nhập mật khẩu..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+          <input type="password" id="login-password" required placeholder="Mật khẩu (mặc định: 123)..." class="w-full p-3 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
         </div>
         <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition">ĐĂNG NHẬP</button>
       </form>
@@ -426,7 +429,7 @@
 
   </main>
 
-  <!-- JAVASCRIPT XỬ LÝ TRỰC TIẾP -->
+  <!-- JAVASCRIPT XỬ LÝ -->
   <script>
     const gamesData = [
       {
@@ -498,16 +501,48 @@
     let selectedGame = gamesData[0];
     let selectedPackage = gamesData[0].packages[0];
 
-    let users = JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
-    let orders = JSON.parse(localStorage.getItem('orders')) || [];
-    let deposits = JSON.parse(localStorage.getItem('deposits')) || [];
-    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    // Khởi tạo dữ liệu an toàn tránh lỗi localStorage
+    let users = [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
+    let orders = [];
+    let deposits = [];
+    let currentUser = null;
+
+    try {
+      users = JSON.parse(localStorage.getItem('users')) || users;
+      orders = JSON.parse(localStorage.getItem('orders')) || orders;
+      deposits = JSON.parse(localStorage.getItem('deposits')) || deposits;
+      currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    } catch (err) {
+      console.warn("Môi trường chạy hạn chế localStorage:", err);
+    }
 
     function saveData() {
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('orders', JSON.stringify(orders));
-      localStorage.setItem('deposits', JSON.stringify(deposits));
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      try {
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('orders', JSON.stringify(orders));
+        localStorage.setItem('deposits', JSON.stringify(deposits));
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      } catch (err) {
+        console.warn("Không thể lưu vào localStorage:", err);
+      }
+    }
+
+    function showAuthAlert(msg, isSuccess = false) {
+      const box = document.getElementById('auth-alert');
+      if (!box) return;
+      box.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border-red-500/30', 'bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/30');
+      
+      if (isSuccess) {
+        box.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/30');
+      } else {
+        box.classList.add('bg-red-500/10', 'text-red-400', 'border-red-500/30');
+      }
+      box.innerText = msg;
+    }
+
+    function hideAuthAlert() {
+      const box = document.getElementById('auth-alert');
+      if (box) box.classList.add('hidden');
     }
 
     function switchPage(page) {
@@ -602,6 +637,7 @@
     }
 
     function switchAuthTab(tab) {
+      hideAuthAlert();
       if (tab === 'login') {
         document.getElementById('form-login').classList.remove('hidden');
         document.getElementById('form-register').classList.add('hidden');
@@ -620,7 +656,11 @@
       const u = document.getElementById('reg-username').value.trim();
       const p = document.getElementById('reg-password').value;
 
-      if (users.some(x => x.username === u)) return alert('Tài khoản đã tồn tại!');
+      if (!u || !p) return showAuthAlert('Vui lòng nhập tên tài khoản và mật khẩu!');
+
+      if (users.some(x => x.username.toLowerCase() === u.toLowerCase())) {
+        return showAuthAlert('❌ Tên tài khoản này đã tồn tại!');
+      }
       
       const newUser = { username: u, password: p, balance: 0, role: 'user' };
       users.push(newUser);
@@ -628,7 +668,6 @@
       saveData();
       updateUI();
 
-      alert('Đăng ký tài khoản thành công!');
       document.getElementById('reg-username').value = '';
       document.getElementById('reg-password').value = '';
 
@@ -640,14 +679,17 @@
       const u = document.getElementById('login-username').value.trim();
       const p = document.getElementById('login-password').value;
 
-      const found = users.find(x => x.username === u && x.password === p);
-      if (!found) return alert('Sai tài khoản hoặc mật khẩu!');
+      if (!u || !p) return showAuthAlert('Vui lòng nhập tên tài khoản và mật khẩu!');
+
+      const found = users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+      if (!found) {
+        return showAuthAlert('❌ Sai tài khoản hoặc mật khẩu!');
+      }
 
       currentUser = found;
       saveData();
       updateUI();
-
-      alert(`Đăng nhập thành công! Xin chào ${currentUser.username}`);
+      hideAuthAlert();
 
       document.getElementById('login-username').value = '';
       document.getElementById('login-password').value = '';
@@ -663,7 +705,6 @@
       currentUser = null;
       saveData();
       updateUI();
-      alert('Đã đăng xuất thành công!');
       switchPage('home');
     }
 
@@ -853,7 +894,7 @@
       }
     }, 1000);
 
-    // Khởi tạo trạng thái ban đầu
+    // Khởi tạo giao diện
     updateUI();
     switchPage('home');
   </script>
