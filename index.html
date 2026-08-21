@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <!-- ĐỒNG HỒ ĐẾM NGƯỢC -->
+          <!-- ĐỒNG HỒ ĐẾM NGƯỜC -->
           <div class="bg-slate-950/90 text-white p-4 rounded-2xl border border-amber-500/30 text-center w-full md:w-auto shadow-2xl backdrop-blur-md">
             <p class="text-[11px] text-amber-400 font-bold uppercase tracking-wider mb-2"><i class="fa-solid fa-clock"></i> Khuyến Mãi Kết Thúc Sau</p>
             <div class="flex justify-center gap-2 font-mono font-black text-xl md:text-2xl text-amber-400">
@@ -232,6 +232,13 @@
           </div>
         </div>
 
+        <!-- Nút dành riêng cho Admin -->
+        <div id="admin-access-btn-container" class="hidden mt-4">
+          <button onclick="switchPage('admin')" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-purple-500/20 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-shield text-amber-300"></i> TRANG QUẢN TRỊ ADMIN (DUYỆT ĐƠN & NẠP VÍ)
+          </button>
+        </div>
+
         <div class="flex gap-3 mt-6 pt-5 border-t border-slate-800">
           <button onclick="switchPage('deposit')" class="flex-1 py-2.5 bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
             <i class="fa-solid fa-plus-circle"></i> Nạp Ví
@@ -347,24 +354,65 @@
       </div>
     </div>
 
-    <!-- TAB ADMIN -->
-    <div id="page-admin" class="hidden space-y-5">
-      <div class="flex justify-between items-center bg-purple-950/80 border border-purple-500/30 p-4 rounded-xl shadow-lg">
-        <h2 class="text-base font-bold text-purple-300 flex items-center gap-2"><i class="fa-solid fa-user-shield text-purple-400"></i> Quản Trị Hệ Thống Admin</h2>
-        <button onclick="switchPage('home')" class="text-xs px-3 py-1 bg-purple-900 hover:bg-purple-800 text-purple-200 rounded-lg transition">Thoát</button>
+    <!-- TAB ADMIN PANEL -->
+    <div id="page-admin" class="hidden space-y-6">
+      <div class="flex justify-between items-center bg-purple-950/80 border border-purple-500/40 p-4 rounded-2xl shadow-xl">
+        <div>
+          <h2 class="text-lg font-bold text-purple-200 flex items-center gap-2">
+            <i class="fa-solid fa-user-shield text-purple-400 text-xl"></i> BẢNG ĐIỀU KHIỂN QUẢN TRỊ ADMIN
+          </h2>
+          <p class="text-xs text-purple-300/80">Xử lý duyệt đơn nạp game, duyệt tiền ví và quản lý thành viên.</p>
+        </div>
+        <button onclick="switchPage('profile')" class="text-xs px-3.5 py-2 bg-purple-900/80 hover:bg-purple-800 text-purple-100 rounded-xl transition border border-purple-500/30 font-bold">
+          <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
+        </button>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-        <h3 class="text-xs font-bold text-emerald-400 mb-2">Duyệt Nạp Ví</h3>
+      <!-- 1. XỬ LÝ ĐƠN NẠP GAME -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-lg">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+            <i class="fa-solid fa-gamepad"></i> 1. XỬ LÝ ĐƠN NẠP GAME
+          </h3>
+          <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/20 font-mono" id="admin-pending-orders-count">0 đơn chờ</span>
+        </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs whitespace-nowrap">
             <thead class="bg-slate-800 text-slate-400 uppercase">
               <tr>
-                <th class="p-2">User</th>
-                <th class="p-2">Số tiền</th>
-                <th class="p-2">Mã GD</th>
-                <th class="p-2">Trạng thái</th>
-                <th class="p-2">Thao tác</th>
+                <th class="p-2.5">Thời gian</th>
+                <th class="p-2.5">User</th>
+                <th class="p-2.5">Tên Game</th>
+                <th class="p-2.5">ID Game</th>
+                <th class="p-2.5">Gói Nạp</th>
+                <th class="p-2.5">Giá Tiền</th>
+                <th class="p-2.5">Trạng thái</th>
+                <th class="p-2.5 text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-list" class="divide-y divide-slate-800"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. DUYỆT YÊU CẦU NẠP VÍ -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-lg">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-wallet"></i> 2. DUYỆT YÊU CẦU NẠP VÍ
+          </h3>
+          <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono" id="admin-pending-deposits-count">0 yêu cầu</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead class="bg-slate-800 text-slate-400 uppercase">
+              <tr>
+                <th class="p-2.5">Thời gian</th>
+                <th class="p-2.5">User</th>
+                <th class="p-2.5">Số tiền</th>
+                <th class="p-2.5">Mã Giao Dịch</th>
+                <th class="p-2.5">Trạng thái</th>
+                <th class="p-2.5 text-center">Thao tác</th>
               </tr>
             </thead>
             <tbody id="admin-deposits-list" class="divide-y divide-slate-800"></tbody>
@@ -372,23 +420,28 @@
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-        <h3 class="text-xs font-bold text-amber-400 mb-2">Duyệt Đơn Nạp Game</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs whitespace-nowrap">
-            <thead class="bg-slate-800 text-slate-400 uppercase">
-              <tr>
-                <th class="p-2">User</th>
-                <th class="p-2">Game / ID</th>
-                <th class="p-2">Gói</th>
-                <th class="p-2">Trạng thái</th>
-                <th class="p-2">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody id="admin-orders-list" class="divide-y divide-slate-800"></tbody>
-          </table>
-        </div>
+      <!-- 3. CỘNG / TRỪ SỐ DƯ TÀI KHOẢN TRỰC TIẾP -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-lg">
+        <h3 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-hand-holding-dollar"></i> 3. CỘNG / TRỪ SỐ DƯ TÀI KHOẢN TRỰC TIẾP
+        </h3>
+        <form onsubmit="handleAdminAdjustBalance(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Tên User nhận tiền</label>
+            <input type="text" id="admin-target-user" required placeholder="Nhập Tên Tài Khoản..." class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white">
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Số tiền (VNĐ)</label>
+            <input type="number" id="admin-target-amount" required placeholder="Ví dụ: 100000" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white font-mono">
+          </div>
+          <div class="flex items-end">
+            <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition shadow">
+              <i class="fa-solid fa-plus-circle mr-1"></i> CỘNG SỐ DƯ
+            </button>
+          </div>
+        </form>
       </div>
+
     </div>
 
   </main>
@@ -465,13 +518,13 @@
     let selectedGame = gamesData[0];
     let selectedPackage = gamesData[0].packages[0];
 
-    // Khởi tạo mặc định
+    // Mặc định ban đầu
     let users = [{ username: 'admin', password: '123', balance: 1000000, role: 'admin' }];
     let orders = [];
     let deposits = [];
     let currentUser = null;
 
-    // Chuẩn hóa và làm sạch dữ liệu cũ từ localStorage
+    // Chuẩn hóa và khôi phục dữ liệu từ localStorage
     try {
       const parsedUsers = JSON.parse(localStorage.getItem('users'));
       if (Array.isArray(parsedUsers) && parsedUsers.length > 0) {
@@ -479,7 +532,7 @@
           username: u.username || 'user',
           password: u.password || '123',
           balance: Number(u.balance) || 0,
-          role: u.role || (u.username === 'admin' ? 'admin' : 'user')
+          role: u.role || (u.username.toLowerCase() === 'admin' ? 'admin' : 'user')
         }));
       }
 
@@ -713,6 +766,16 @@
 
       const myOrders = orders.filter(o => o.user && o.user.toLowerCase() === me.username.toLowerCase() && o.status === 'Thành công');
       if (pTotOrd) pTotOrd.innerText = `${myOrders.length} đơn`;
+
+      // Hiển thị nút bấm Trang Admin nếu tài khoản là Admin
+      const adminBtnBox = document.getElementById('admin-access-btn-container');
+      if (adminBtnBox) {
+        if (me.role === 'admin') {
+          adminBtnBox.classList.remove('hidden');
+        } else {
+          adminBtnBox.classList.add('hidden');
+        }
+      }
     }
 
     function handleGameOrder(e) {
@@ -742,6 +805,7 @@
       updateUI();
       alert(`Đã gửi đơn nạp ${selectedPackage.name} cho ID ${gameId}!`);
       document.getElementById('shop-gameid').value = '';
+      switchPage('history');
     }
 
     function handleDepositRequest(e) {
@@ -778,7 +842,11 @@
             <td class="p-2.5 font-mono text-amber-300">${o.gameId || ''}</td>
             <td class="p-2.5">${o.package || ''}</td>
             <td class="p-2.5 font-bold text-emerald-400">${(Number(o.price) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : 'bg-amber-900/80 text-amber-300'}">${o.status || 'Chờ xử lý'}</span></td>
+            <td class="p-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : o.status === 'Thất bại' ? 'bg-red-900/80 text-red-300' : 'bg-amber-900/80 text-amber-300'}">
+                ${o.status || 'Chờ xử lý'}
+              </span>
+            </td>
           </tr>
         `).join('') : '<tr><td colspan="6" class="p-3 text-center text-slate-500">Chưa có đơn nạp game</td></tr>';
       }
@@ -790,66 +858,171 @@
             <td class="p-2.5 text-slate-500">${d.date || ''}</td>
             <td class="p-2.5 font-bold text-emerald-400">+${(Number(d.amount) || 0).toLocaleString('vi-VN')}đ</td>
             <td class="p-2.5 font-mono text-slate-400">${d.transId || ''}</td>
-            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : 'bg-amber-900/80 text-amber-300'}">${d.status || 'Chờ duyệt'}</span></td>
+            <td class="p-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : d.status === 'Thất bại' ? 'bg-red-900/80 text-red-300' : 'bg-amber-900/80 text-amber-300'}">
+                ${d.status || 'Chờ duyệt'}
+              </span>
+            </td>
           </tr>
         `).join('') : '<tr><td colspan="4" class="p-3 text-center text-slate-500">Chưa có lịch sử nạp ví</td></tr>';
       }
     }
 
     function renderAdmin() {
-      const depList = document.getElementById('admin-deposits-list');
-      if (depList) {
-        depList.innerHTML = deposits.length ? deposits.map(d => `
-          <tr>
-            <td class="p-2 font-bold text-amber-300">${d.user || ''}</td>
-            <td class="p-2 text-emerald-400 font-bold">+${(Number(d.amount) || 0).toLocaleString('vi-VN')}đ</td>
-            <td class="p-2 font-mono text-[10px]">${d.transId || ''}</td>
-            <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900 text-emerald-300' : 'bg-amber-900 text-amber-300'}">${d.status || 'Chờ duyệt'}</span></td>
-            <td class="p-2">
-              ${d.status === 'Chờ duyệt' ? `<button onclick="approveDeposit(${d.id})" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-[10px] rounded text-white font-bold transition">Duyệt</button>` : '-'}
-            </td>
-          </tr>
-        `).join('') : '<tr><td colspan="5" class="p-3 text-center text-slate-500">Chưa có yêu cầu nạp ví nào</td></tr>';
-      }
+      // Đếm số đơn chờ
+      const pendingOrders = orders.filter(o => o.status === 'Chờ xử lý').length;
+      const pendingDeposits = deposits.filter(d => d.status === 'Chờ duyệt').length;
 
+      const pOrdEl = document.getElementById('admin-pending-orders-count');
+      if (pOrdEl) pOrdEl.innerText = `${pendingOrders} đơn chờ`;
+
+      const pDepEl = document.getElementById('admin-pending-deposits-count');
+      if (pDepEl) pDepEl.innerText = `${pendingDeposits} yêu cầu`;
+
+      // 1. Render Bảng Đơn Nạp Game
       const ordList = document.getElementById('admin-orders-list');
       if (ordList) {
         ordList.innerHTML = orders.length ? orders.map(o => `
           <tr>
-            <td class="p-2 font-bold text-amber-300">${o.user || ''}</td>
-            <td class="p-2">${o.game || ''} (${o.gameId || ''})</td>
-            <td class="p-2">${o.package || ''}</td>
-            <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900 text-emerald-300' : 'bg-amber-900 text-amber-300'}">${o.status || 'Chờ xử lý'}</span></td>
-            <td class="p-2">
-              ${o.status === 'Chờ xử lý' ? `<button onclick="approveOrder(${o.id})" class="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-[10px] rounded text-white font-bold transition">Duyệt</button>` : '-'}
+            <td class="p-2.5 text-slate-500 text-[11px]">${o.date || ''}</td>
+            <td class="p-2.5 font-bold text-amber-300">${o.user || ''}</td>
+            <td class="p-2.5 font-semibold text-white">${o.game || ''}</td>
+            <td class="p-2.5 font-mono text-amber-400">${o.gameId || ''}</td>
+            <td class="p-2.5 text-slate-200">${o.package || ''}</td>
+            <td class="p-2.5 font-mono font-bold text-emerald-400">${(Number(o.price) || 0).toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300 border border-emerald-500/30' : o.status === 'Thất bại' ? 'bg-red-900/80 text-red-300 border border-red-500/30' : 'bg-amber-900/80 text-amber-300 border border-amber-500/30'}">
+                ${o.status || 'Chờ xử lý'}
+              </span>
+            </td>
+            <td class="p-2.5 text-center">
+              ${o.status === 'Chờ xử lý' ? `
+                <div class="flex items-center justify-center gap-1.5">
+                  <button onclick="approveOrder(${o.id})" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-check"></i> Duyệt
+                  </button>
+                  <button onclick="rejectOrder(${o.id})" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-xmark"></i> Hủy
+                  </button>
+                </div>
+              ` : '<span class="text-slate-500 text-[11px]">Đã xử lý</span>'}
             </td>
           </tr>
-        `).join('') : '<tr><td colspan="5" class="p-3 text-center text-slate-500">Chưa có đơn nạp game nào</td></tr>';
+        `).join('') : '<tr><td colspan="8" class="p-4 text-center text-slate-500">Chưa có đơn nạp game nào</td></tr>';
+      }
+
+      // 2. Render Bảng Duyệt Nạp Ví
+      const depList = document.getElementById('admin-deposits-list');
+      if (depList) {
+        depList.innerHTML = deposits.length ? deposits.map(d => `
+          <tr>
+            <td class="p-2.5 text-slate-500 text-[11px]">${d.date || ''}</td>
+            <td class="p-2.5 font-bold text-amber-300">${d.user || ''}</td>
+            <td class="p-2.5 font-mono font-bold text-emerald-400">+${(Number(d.amount) || 0).toLocaleString('vi-VN')}đ</td>
+            <td class="p-2.5 font-mono text-slate-300 text-[11px]">${d.transId || ''}</td>
+            <td class="p-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] ${d.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300 border border-emerald-500/30' : d.status === 'Thất bại' ? 'bg-red-900/80 text-red-300 border border-red-500/30' : 'bg-amber-900/80 text-amber-300 border border-amber-500/30'}">
+                ${d.status || 'Chờ duyệt'}
+              </span>
+            </td>
+            <td class="p-2.5 text-center">
+              ${d.status === 'Chờ duyệt' ? `
+                <div class="flex items-center justify-center gap-1.5">
+                  <button onclick="approveDeposit(${d.id})" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-check"></i> Duyệt cộng tiền
+                  </button>
+                  <button onclick="rejectDeposit(${d.id})" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-[10px] rounded-lg text-white font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-xmark"></i> Từ chối
+                  </button>
+                </div>
+              ` : '<span class="text-slate-500 text-[11px]">Đã xử lý</span>'}
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="6" class="p-4 text-center text-slate-500">Chưa có yêu cầu nạp ví nào</td></tr>';
       }
     }
 
+    // Duyệt & Từ Chối Nạp Ví
     function approveDeposit(id) {
       const dep = deposits.find(d => d.id === id);
       if (dep && dep.status === 'Chờ duyệt') {
         dep.status = 'Thành công';
         const user = users.find(u => u.username.toLowerCase() === dep.user.toLowerCase());
-        if (user) user.balance = (user.balance || 0) + dep.amount;
+        if (user) {
+          user.balance = (Number(user.balance) || 0) + Number(dep.amount);
+        }
         if (currentUser && currentUser.username.toLowerCase() === dep.user.toLowerCase()) {
           currentUser.balance = user.balance;
         }
         saveData();
         updateUI();
         renderAdmin();
+        alert(`Đã duyệt cộng ${(Number(dep.amount)).toLocaleString('vi-VN')}đ cho tài khoản ${dep.user}!`);
       }
     }
 
+    function rejectDeposit(id) {
+      const dep = deposits.find(d => d.id === id);
+      if (dep && dep.status === 'Chờ duyệt') {
+        dep.status = 'Thất bại';
+        saveData();
+        renderAdmin();
+      }
+    }
+
+    // Duyệt & Hủy Đơn Nạp Game
     function approveOrder(id) {
       const ord = orders.find(o => o.id === id);
       if (ord && ord.status === 'Chờ xử lý') {
         ord.status = 'Thành công';
         saveData();
         renderAdmin();
+        alert(`Đã duyệt thành công đơn nạp game ${ord.game} cho ID ${ord.gameId}!`);
       }
+    }
+
+    function rejectOrder(id) {
+      const ord = orders.find(o => o.id === id);
+      if (ord && ord.status === 'Chờ xử lý') {
+        ord.status = 'Thất bại';
+        // Hoàn tiền cho user nếu đơn bị hủy
+        const user = users.find(u => u.username.toLowerCase() === ord.user.toLowerCase());
+        if (user) {
+          user.balance = (Number(user.balance) || 0) + Number(ord.price);
+        }
+        if (currentUser && currentUser.username.toLowerCase() === ord.user.toLowerCase()) {
+          currentUser.balance = user.balance;
+        }
+        saveData();
+        updateUI();
+        renderAdmin();
+        alert(`Đã hủy đơn nạp và hoàn trả ${(Number(ord.price)).toLocaleString('vi-VN')}đ vào ví cho tài khoản ${ord.user}!`);
+      }
+    }
+
+    // Admin cộng/trừ số dư thủ công
+    function handleAdminAdjustBalance(e) {
+      e.preventDefault();
+      const targetUsername = document.getElementById('admin-target-user').value.trim();
+      const amount = parseInt(document.getElementById('admin-target-amount').value);
+
+      if (!targetUsername || isNaN(amount)) return alert('Vui lòng nhập đầy đủ tên tài khoản và số tiền!');
+
+      const user = users.find(u => u.username.toLowerCase() === targetUsername.toLowerCase());
+      if (!user) {
+        return alert(`Không tìm thấy tài khoản "${targetUsername}" trong hệ thống!`);
+      }
+
+      user.balance = (Number(user.balance) || 0) + amount;
+      if (currentUser && currentUser.username.toLowerCase() === user.username.toLowerCase()) {
+        currentUser.balance = user.balance;
+      }
+
+      saveData();
+      updateUI();
+      renderAdmin();
+      alert(`Thành công! Đã ${amount >= 0 ? 'cộng' : 'trừ'} ${Math.abs(amount).toLocaleString('vi-VN')}đ cho tài khoản ${user.username}. Số dư hiện tại: ${user.balance.toLocaleString('vi-VN')}đ`);
+      e.target.reset();
     }
 
     function updateUI() {
@@ -873,7 +1046,7 @@
           </button>
           ${me.role === 'admin' ? `
             <button onclick="switchPage('admin')" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black rounded-xl shadow-lg shadow-purple-500/30 flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-user-shield"></i> Admin
+              <i class="fa-solid fa-user-shield"></i> Trang Admin
             </button>
           ` : ''}
         `;
@@ -886,7 +1059,7 @@
       }
     }
 
-    // ĐỒNG HỒ ĐẾM NGƯỢC
+    // ĐỒNG HỒ ĐẾM NGƯỜC BANNER
     let totalSeconds = 9918;
     setInterval(() => {
       if (totalSeconds > 0) {
