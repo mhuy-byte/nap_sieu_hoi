@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Nạp Game Thủ Công</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 flex flex-col items-center justify-center">
+
+  <!-- KHÁCH HÀNG: FORM GỬI ĐƠN NẠP -->
+  <div id="client-view" class="w-full max-w-md bg-slate-800 rounded-xl p-6 border border-slate-700 shadow-xl">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-xl font-bold text-amber-400">NẠP KIM CƯƠNG AUTO</h1>
+      <button onclick="toggleAdmin()" class="text-xs text-slate-500 hover:text-slate-300 transition">⚙️ Admin</button>
+    </div>
+
+    <!-- Thông tin tài khoản ngân hàng -->
+    <div class="bg-slate-900 p-4 rounded-lg mb-6 border border-slate-700 text-sm">
+      <p class="font-semibold text-amber-400 mb-2">Thông tin chuyển khoản:</p>
+      <p>Ngân hàng: <b class="text-white">MBBank</b></p>
+      <p>Số tài khoản: <b class="text-white">0999888777</b></p>
+      <p>Chủ tài khoản: <b class="text-white">NGUYEN VAN A</b></p>
+      <p class="text-xs text-slate-400 mt-2">* Vui lòng chuyển khoản trước, sau đó điền thông tin bên dưới.</p>
+    </div>
+
+    <form onsubmit="submitOrder(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1 font-medium">ID Nhân Vật (Game ID)</label>
+        <input type="text" id="gameId" required placeholder="Nhập ID game của bạn" class="w-full p-3 bg-slate-700 rounded-lg border border-slate-600 focus:outline-none focus:border-amber-400">
+      </div>
+      <div>
+        <label class="block text-sm mb-1 font-medium">Gói Nạp</label>
+        <select id="package" class="w-full p-3 bg-slate-700 rounded-lg border border-slate-600 focus:outline-none focus:border-amber-400">
+          <option value="111 Kim Cương - 20.000đ">111 Kim Cương - 20.000đ</option>
+          <option value="280 Kim Cương - 50.000đ">280 Kim Cương - 50.000đ</option>
+          <option value="580 Kim Cương - 100.000đ">580 Kim Cương - 100.000đ</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm mb-1 font-medium">Mã Giao Dịch Ngân Hàng</label>
+        <input type="text" id="transId" required placeholder="Ví dụ: FT240812345" class="w-full p-3 bg-slate-700 rounded-lg border border-slate-600 focus:outline-none focus:border-amber-400">
+      </div>
+      <button type="submit" class="w-full py-3 bg-amber-500 font-bold text-slate-900 rounded-lg hover:bg-amber-400 transition">GỬI YÊU CẦU NẠP</button>
+    </form>
+  </div>
+
+  <!-- ADMIN: QUẢN LÝ ĐƠN HÀNG (ẨN) -->
+  <div id="admin-view" class="w-full max-w-2xl bg-slate-800 rounded-xl p-6 border border-slate-700 shadow-xl hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold text-emerald-400">QUẢN TRỊ ĐƠN HÀNG</h2>
+      <button onclick="toggleAdmin()" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-sm">Về trang khách</button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-slate-300">
+        <thead class="bg-slate-700 text-amber-400 uppercase text-xs">
+          <tr>
+            <th class="p-3">ID Game</th>
+            <th class="p-3">Gói</th>
+            <th class="p-3">Mã GD</th>
+            <th class="p-3">Trạng Thái</th>
+            <th class="p-3">Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody id="order-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASS = "123456"; // Mật khẩu truy cập admin ẩn
+
+    function toggleAdmin() {
+      const adminView = document.getElementById('admin-view');
+      const clientView = document.getElementById('client-view');
+
+      if (adminView.classList.contains('hidden')) {
+        const pass = prompt("Nhập mật khẩu Admin:");
+        if (pass === ADMIN_PASS) {
+          adminView.classList.remove('hidden');
+          clientView.classList.add('hidden');
+          renderOrders();
+        } else if (pass !== null) {
+          alert("Mật khẩu không chính xác!");
+        }
+      } else {
+        adminView.classList.add('hidden');
+        clientView.classList.remove('hidden');
+      }
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      const order = {
+        id: Date.now(),
+        gameId: document.getElementById('gameId').value,
+        package: document.getElementById('package').value,
+        transId: document.getElementById('transId').value,
+        status: 'Chờ duyệt'
+      };
+
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      alert('Đã gửi đơn nạp thành công! Admin sẽ kiểm tra và cộng vật phẩm trong ít phút.');
+      e.target.reset();
+    }
+
+    function renderOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const tbody = document.getElementById('order-list');
+      
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có đơn hàng nào.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr class="border-b border-slate-700">
+          <td class="p-3 font-semibold text-white">${o.gameId}</td>
+          <td class="p-3">${o.package}</td>
+          <td class="p-3 font-mono text-xs text-amber-300">${o.transId}</td>
+          <td class="p-3">
+            <span class="px-2 py-1 rounded text-xs ${
+              o.status === 'Thành công' ? 'bg-emerald-900/80 text-emerald-300' : 
+              o.status === 'Đã hủy' ? 'bg-red-900/80 text-red-300' : 'bg-amber-900/80 text-amber-300'
+            }">${o.status}</span>
+          </td>
+          <td class="p-3 space-x-1">
+            ${o.status === 'Chờ duyệt' ? `
+              <button onclick="updateStatus(${o.id}, 'Thành công')" class="px-2 py-1 bg-emerald-600 text-xs rounded hover:bg-emerald-500 text-white">Duyệt</button>
+              <button onclick="updateStatus(${o.id}, 'Đã hủy')" class="px-2 py-1 bg-red-600 text-xs rounded hover:bg-red-500 text-white">Hủy</button>
+            ` : '<span class="text-xs text-slate-500">Hoàn tất</span>'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateStatus(id, newStatus) {
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders = orders.map(o => o.id === id ? { ...o, status: newStatus } : o);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      renderOrders();
+    }
+  </script>
+</body>
+</html>
