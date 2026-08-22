@@ -25,12 +25,12 @@
         <span class="text-lg md:text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">NAPGAME247</span>
       </button>
 
-      <div id="nav-links" class="hidden md:flex items-center gap-1 text-sm font-medium">
-        <button onclick="switchPage('home')" id="nav-home" class="nav-btn">Trang Chủ</button>
-        <button onclick="switchPage('shop')" id="nav-shop" class="nav-btn">Nạp Game</button>
-        <button onclick="switchPage('deposit')" id="nav-deposit" class="nav-btn">Nạp Ví</button>
-        <button onclick="switchPage('profile')" id="nav-profile" class="nav-btn">Tài Khoản</button>
-        <button onclick="switchPage('history')" id="nav-history" class="nav-btn">Lịch Sử</button>
+      <div id="nav-links" class="hidden md:flex items-center gap-2 text-sm font-medium">
+        <button onclick="switchPage('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-lg text-amber-400 bg-slate-800/80">Trang Chủ</button>
+        <button onclick="switchPage('shop')" id="nav-shop" class="nav-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white">Nạp Game</button>
+        <button onclick="switchPage('deposit')" id="nav-deposit" class="nav-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white">Nạp Ví</button>
+        <button onclick="switchPage('profile')" id="nav-profile" class="nav-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white">Tài Khoản</button>
+        <button onclick="switchPage('history')" id="nav-history" class="nav-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white">Lịch Sử</button>
       </div>
 
       <div id="nav-user" class="flex items-center gap-2"></div>
@@ -546,7 +546,7 @@
       }
     }
 
-async function handleDepositRequest(e) {
+    async function handleDepositRequest(e) {
       e.preventDefault();
       if (!requireLogin()) return;
 
