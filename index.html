@@ -546,9 +546,12 @@
       }
     }
 
-    async function handleDepositRequest(e) {
+ async function handleDepositRequest(e) {
       e.preventDefault();
       if (!requireLogin()) return;
+
+      const me = getMe();
+      if (!me) return toast('Lỗi phiên đăng nhập, vui lòng tải lại trang.', 'error');
 
       const amount = Number(document.getElementById('dep-amount').value);
       const transId = document.getElementById('dep-transid').value.trim();
@@ -562,29 +565,33 @@
 
       try {
         const depRef = db.ref('deposits').push();
-        await depRef.set({
-          id:depRef.key,
-          user:currentUser.username,
-          amount:amount,
-          transId:transId,
-          status:'Chờ duyệt',
-          date:new Date().toLocaleString('vi-VN'),
-          createdAt:Date.now()
+        const dataPayload = {
+          id: depRef.key,
+          user: me.username,
+          amount: amount,
+          transId: transId,
+          status: 'Chờ duyệt',
+          date: new Date().toLocaleString('vi-VN'),
+          createdAt: Date.now()
+        };
+
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Mạng quá chậm hoặc Database bị chặn kết nối!')), 8000);
         });
+
+        await Promise.race([depRef.set(dataPayload), timeoutPromise]);
 
         e.target.reset();
         toast('Đã gửi yêu cầu nạp ví lên Admin thành công!', 'success');
         switchPage('history');
       } catch(err) {
         console.error('DEPOSIT ERROR:', err);
-        toast('Không gửi được yêu cầu nạp ví: ' + err.message, 'error');
+        toast('Lỗi: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
         btn.innerText = 'GỬI YÊU CẦU CỘNG TIỀN';
       }
     }
-
-    function statusClass(status) {
       if (status === 'Thành công') return 'bg-emerald-900/80 text-emerald-300';
       if (status === 'Thất bại') return 'bg-red-900/80 text-red-300';
       return 'bg-amber-900/80 text-amber-300';
