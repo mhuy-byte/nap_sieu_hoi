@@ -546,7 +546,7 @@
       }
     }
 
- async function handleDepositRequest(e) {
+async function handleDepositRequest(e) {
       e.preventDefault();
       if (!requireLogin()) return;
 
@@ -592,6 +592,8 @@
         btn.innerText = 'GỬI YÊU CẦU CỘNG TIỀN';
       }
     }
+
+    function statusClass(status) {
       if (status === 'Thành công') return 'bg-emerald-900/80 text-emerald-300';
       if (status === 'Thất bại') return 'bg-red-900/80 text-red-300';
       return 'bg-amber-900/80 text-amber-300';
