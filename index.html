@@ -10,7 +10,7 @@
   <style>
     html,body{min-height:100%;background:#020617}
     body{padding-bottom:76px}
-    button,input{touch-action:manipulation}
+    button,input,select{touch-action:manipulation}
     .mobile-nav{padding-bottom:calc(.55rem + env(safe-area-inset-bottom))}
     .toast{animation:toastIn .2s ease-out}
     @keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -73,8 +73,8 @@
         <div class="bg-slate-900/80 border border-emerald-500/30 p-4 rounded-2xl flex items-center gap-3">
           <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center text-xl font-bold">⚡</div>
           <div>
-            <h4 class="font-bold text-white text-sm">Xử Lý 30 Giây</h4>
-            <p class="text-xs text-slate-400">Hệ thống API nạp tự động 24/7</p>
+            <h4 class="font-bold text-white text-sm">Xử Lý Nhanh Chóng</h4>
+            <p class="text-xs text-slate-400">Hệ thống xử lý trong 1 - 3 phút</p>
           </div>
         </div>
         <div class="bg-slate-900/80 border border-blue-500/30 p-4 rounded-2xl flex items-center gap-3">
@@ -176,23 +176,69 @@
     </section>
 
     <!-- DEPOSIT PAGE -->
-    <section id="page-deposit" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-        <h3 class="text-base font-bold text-amber-400 mb-3">Chuyển Khoản Ngân Hàng</h3>
-        <div class="space-y-2.5 text-xs md:text-sm bg-slate-950/50 p-3.5 rounded-xl border border-slate-800">
-          <p class="flex justify-between"><span class="text-slate-400">Ngân hàng:</span><b>MBBank</b></p>
-          <p class="flex justify-between"><span class="text-slate-400">Số tài khoản:</span><b class="text-amber-400 font-mono">0999888777</b></p>
-          <p class="flex justify-between"><span class="text-slate-400">Chủ tài khoản:</span><b>NGUYEN VAN A</b></p>
-        </div>
-      </div>
+    <section id="page-deposit" class="hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- BANK DEPOSIT INFO & FORM -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+            <i class="fa-solid fa-university"></i> 1. Chuyển Khoản Ngân Hàng
+          </h3>
+          <div class="space-y-2.5 text-xs md:text-sm bg-slate-950/50 p-3.5 rounded-xl border border-slate-800">
+            <p class="flex justify-between"><span class="text-slate-400">Ngân hàng:</span><b>MBBank</b></p>
+            <p class="flex justify-between"><span class="text-slate-400">Số tài khoản:</span><b class="text-amber-400 font-mono text-base">8877945567</b></p>
+            <p class="flex justify-between"><span class="text-slate-400">Chủ tài khoản:</span><b class="text-white uppercase">VI THI HA</b></p>
+          </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-        <h3 class="text-base font-bold text-emerald-400 mb-3">Xác Nhận Đã Chuyển Tiền</h3>
-        <form onsubmit="handleDepositRequest(event)" class="space-y-3">
-          <div><label class="block text-xs text-slate-400 mb-1">Số tiền chuyển (VNĐ)</label><input type="number" id="dep-amount" required min="10000" class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white"></div>
-          <div><label class="block text-xs text-slate-400 mb-1">Mã Giao Dịch Ngân Hàng</label><input type="text" id="dep-transid" required class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white"></div>
-          <button type="submit" id="deposit-btn" class="w-full py-3 bg-emerald-500 text-slate-950 font-bold text-sm rounded-xl">GỬI YÊU CẦU CỘNG TIỀN</button>
-        </form>
+          <form onsubmit="handleDepositRequest(event)" class="space-y-3 pt-2">
+            <h4 class="text-xs font-bold text-emerald-400">Xác Nhận Đã Chuyển Khoản</h4>
+            <div><label class="block text-xs text-slate-400 mb-1">Số tiền chuyển (VNĐ)</label><input type="number" id="dep-amount" required min="10000" class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white"></div>
+            <div><label class="block text-xs text-slate-400 mb-1">Mã Giao Dịch Ngân Hàng</label><input type="text" id="dep-transid" required class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white"></div>
+            <button type="submit" id="deposit-btn" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all">GỬI YÊU CẦU CỘNG TIỀN</button>
+          </form>
+        </div>
+
+        <!-- SCRATCH CARD DEPOSIT FORM -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h3 class="text-base font-bold text-orange-400 flex items-center gap-2">
+            <i class="fa-solid fa-ticket"></i> 2. Nạp Bằng Thẻ Cào Điện Thoại
+          </h3>
+          <form onsubmit="handleScratchCardDeposit(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Loại thẻ</label>
+              <select id="card-type" required class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none">
+                <option value="Viettel">Viettel</option>
+                <option value="Vinaphone">Vinaphone</option>
+                <option value="Mobifone">Mobifone</option>
+                <option value="Zing">Zing</option>
+                <option value="Gate">Gate</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Mệnh giá thẻ</label>
+              <select id="card-value" required class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white focus:outline-none">
+                <option value="10000">10.000đ</option>
+                <option value="20000">20.000đ</option>
+                <option value="50000">50.000đ</option>
+                <option value="100000">100.000đ</option>
+                <option value="200000">200.000đ</option>
+                <option value="500000">500.000đ</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Số Seri</label>
+              <input type="text" id="card-seri" required placeholder="Nhập số seri thẻ..." class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white">
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Mã số thẻ</label>
+              <input type="text" id="card-code" required placeholder="Nhập mã mã cào..." class="w-full p-2.5 bg-slate-800 rounded-xl border border-slate-700 text-sm text-white">
+            </div>
+
+            <button type="submit" id="card-deposit-btn" class="w-full py-3 bg-orange-500 hover:bg-orange-400 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all">XÁC NHẬN NẠP THẺ CÀO</button>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -215,7 +261,7 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs whitespace-nowrap">
             <thead class="bg-slate-800 text-slate-400"><tr>
-              <th class="p-2.5">Thời gian</th><th class="p-2.5">Số tiền</th><th class="p-2.5">Mã GD</th><th class="p-2.5">Trạng thái</th>
+              <th class="p-2.5">Thời gian</th><th class="p-2.5">Hình thức</th><th class="p-2.5">Số tiền</th><th class="p-2.5">Chi tiết / Mã GD</th><th class="p-2.5">Trạng thái</th>
             </tr></thead>
             <tbody id="history-wallet-list" class="divide-y divide-slate-800"></tbody>
           </table>
@@ -247,7 +293,7 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs whitespace-nowrap">
             <thead class="bg-slate-800 text-slate-400"><tr>
-              <th class="p-2.5">Thời gian</th><th class="p-2.5">User</th><th class="p-2.5">Số tiền</th><th class="p-2.5">Mã GD</th><th class="p-2.5">Trạng thái</th><th class="p-2.5">Thao tác</th>
+              <th class="p-2.5">Thời gian</th><th class="p-2.5">User</th><th class="p-2.5">Kênh nạp</th><th class="p-2.5">Số tiền</th><th class="p-2.5">Thông tin GD / Seri & Mã</th><th class="p-2.5">Trạng thái</th><th class="p-2.5">Thao tác</th>
             </tr></thead>
             <tbody id="admin-deposits-list" class="divide-y divide-slate-800"></tbody>
           </table>
@@ -337,7 +383,7 @@
       el.className = 'toast bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm shadow-2xl';
       el.innerHTML = '<b class="' + (type === 'success' ? 'text-emerald-400' : type === 'error' ? 'text-red-400' : 'text-amber-400') + '">' + esc(message) + '</b>';
       document.getElementById('toast-container').appendChild(el);
-      setTimeout(() => el.remove(), 3500);
+      setTimeout(() => el.remove(), 4500);
     }
 
     function saveCurrentUser(user) {
@@ -566,7 +612,7 @@
       const currentBalance = Number(me.balance || 0);
 
       if (currentBalance < price) {
-        return toast('Số dư ví không đủ! Vui lòng nạp thêm tiền.', 'error');
+        return toast('Số dư ví không đủ! Vui lòng nạp thêm tiền vào ví.', 'error');
       }
 
       const btn = document.getElementById('buy-btn');
@@ -576,16 +622,13 @@
       try {
         const newBalance = currentBalance - price;
 
-        // 1. Trừ tiền trực tiếp trên Firebase DB
         await db.ref('users/' + me.username + '/balance').set(newBalance);
 
-        // 2. Cập nhật bộ nhớ tạm local để giao diện đổi số lập tức
         if (users[me.username]) users[me.username].balance = newBalance;
         if (currentUser) currentUser.balance = newBalance;
         saveCurrentUser(currentUser);
         updateUI();
 
-        // 3. Tạo đơn hàng mới trên Firebase
         const orderRef = db.ref('orders').push();
         const order = {
           id: orderRef.key,
@@ -602,7 +645,6 @@
         try {
           await orderRef.set(order);
         } catch(writeErr) {
-          // Hoàn tiền nếu tạo đơn lỗi
           await db.ref('users/' + me.username + '/balance').set(currentBalance);
           if (users[me.username]) users[me.username].balance = currentBalance;
           if (currentUser) currentUser.balance = currentBalance;
@@ -612,7 +654,7 @@
         }
 
         document.getElementById('shop-gameid').value = '';
-        toast('Mua thành công! Đã trừ ' + money(price) + ' trong ví.', 'success');
+        toast('Đã gửi đơn nạp! Quá trình này sẽ được nhân viên xử lý trong 1 - 3 phút.', 'success');
         switchPage('history');
       } catch(err) {
         console.error('ORDER ERROR:', err);
@@ -645,6 +687,7 @@
         const dataPayload = {
           id: depRef.key,
           user: me.username,
+          method: 'Ngân hàng',
           amount: amount,
           transId: transId,
           status: 'Chờ duyệt',
@@ -652,14 +695,10 @@
           createdAt: Date.now()
         };
 
-        const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Mạng quá chậm hoặc Database bị chặn kết nối!')), 8000);
-        });
-
-        await Promise.race([depRef.set(dataPayload), timeoutPromise]);
+        await depRef.set(dataPayload);
 
         e.target.reset();
-        toast('Đã gửi yêu cầu nạp ví lên Admin thành công!', 'success');
+        toast('Đã gửi yêu cầu nạp ví! Quá trình này sẽ được nhân viên xử lý trong 1 - 3 phút.', 'success');
         switchPage('history');
       } catch(err) {
         console.error('DEPOSIT ERROR:', err);
@@ -667,6 +706,51 @@
       } finally {
         btn.disabled = false;
         btn.innerText = 'GỬI YÊU CẦU CỘNG TIỀN';
+      }
+    }
+
+    async function handleScratchCardDeposit(e) {
+      e.preventDefault();
+      if (!requireLogin()) return;
+
+      const me = getMe();
+      if (!me) return toast('Lỗi phiên đăng nhập, vui lòng tải lại trang.', 'error');
+
+      const cardType = document.getElementById('card-type').value;
+      const amount = Number(document.getElementById('card-value').value);
+      const cardSeri = document.getElementById('card-seri').value.trim();
+      const cardCode = document.getElementById('card-code').value.trim();
+
+      if (!cardSeri || !cardCode) return toast('Vui lòng điền đầy đủ Số Seri và Mã số thẻ!', 'error');
+
+      const btn = document.getElementById('card-deposit-btn');
+      btn.disabled = true;
+      btn.innerText = 'ĐANG GỬI THẺ...';
+
+      try {
+        const depRef = db.ref('deposits').push();
+        const dataPayload = {
+          id: depRef.key,
+          user: me.username,
+          method: 'Thẻ cào (' + cardType + ')',
+          amount: amount,
+          transId: 'Seri: ' + cardSeri + ' | Mã: ' + cardCode,
+          status: 'Chờ duyệt',
+          date: new Date().toLocaleString('vi-VN'),
+          createdAt: Date.now()
+        };
+
+        await depRef.set(dataPayload);
+
+        e.target.reset();
+        toast('Đã gửi thông tin thẻ! Quá trình này sẽ được nhân viên xử lý trong 1 - 3 phút.', 'success');
+        switchPage('history');
+      } catch(err) {
+        console.error('CARD ERROR:', err);
+        toast('Lỗi nạp thẻ: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'XÁC NHẬN NẠP THẺ CÀO';
       }
     }
 
@@ -704,10 +788,11 @@
       depEl.innerHTML = myDeposits.length ? myDeposits.map(d => `
         <tr>
           <td class="p-2.5 text-slate-500">${esc(d.date)}</td>
+          <td class="p-2.5 font-semibold text-orange-400">${esc(d.method || 'Ngân hàng')}</td>
           <td class="p-2.5 font-bold text-emerald-400">+${money(d.amount)}</td>
-          <td class="p-2.5 font-mono text-slate-400">${esc(d.transId)}</td>
+          <td class="p-2.5 font-mono text-slate-300">${esc(d.transId)}</td>
           <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${statusClass(d.status)}">${esc(d.status)}</span></td>
-        </tr>`).join('') : '<tr><td colspan="4" class="p-5 text-center text-slate-500">Chưa có yêu cầu nạp ví.</td></tr>';
+        </tr>`).join('') : '<tr><td colspan="5" class="p-5 text-center text-slate-500">Chưa có yêu cầu nạp ví.</td></tr>';
     }
 
     function renderAdmin() {
@@ -738,6 +823,7 @@
         <tr>
           <td class="p-2.5 text-slate-500 text-[11px]">${esc(d.date)}</td>
           <td class="p-2.5 font-bold text-amber-300">${esc(d.user)}</td>
+          <td class="p-2.5 font-semibold text-orange-400">${esc(d.method || 'Ngân hàng')}</td>
           <td class="p-2.5 font-mono font-bold text-emerald-400">+${money(d.amount)}</td>
           <td class="p-2.5 font-mono text-slate-300">${esc(d.transId)}</td>
           <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${statusClass(d.status)}">${esc(d.status)}</span></td>
@@ -747,7 +833,7 @@
                  <button onclick="rejectDeposit('${esc(d.id)}')" class="px-2 py-1 bg-red-600 rounded text-white font-bold">Từ chối</button>`
               : '<span class="text-slate-500">Đã xử lý</span>'}
           </td>
-        </tr>`).join('') : '<tr><td colspan="6" class="p-5 text-center text-slate-500">Chưa có yêu cầu nạp ví.</td></tr>';
+        </tr>`).join('') : '<tr><td colspan="7" class="p-5 text-center text-slate-500">Chưa có yêu cầu nạp ví.</td></tr>';
     }
 
     async function approveDeposit(id) {
