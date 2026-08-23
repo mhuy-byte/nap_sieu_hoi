@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0f172a">
-  <title>NAPGAME247 - Hệ Thống Nạp Game 24/7</title>
+  <title>NAPGAME247 - Hệ Thống Nạp Game 24/7 Giá Rẻ Nhất Thị Trường</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -18,6 +18,7 @@
 </head>
 
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
+  <!-- NAVIGATION -->
   <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <button onclick="switchPage('home')" class="flex items-center gap-2">
@@ -38,27 +39,67 @@
   </nav>
 
   <main class="max-w-6xl mx-auto p-4 pb-6 flex-1 w-full">
-    <!-- HOME -->
+    <!-- HOME PAGE -->
     <section id="page-home" class="space-y-6">
+      <!-- Banner Hero Flash Sale -->
       <div class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-amber-500 via-orange-600 to-red-600 p-6 md:p-10 text-slate-950 shadow-2xl">
+        <div class="absolute -right-6 -bottom-6 text-slate-950/10 text-9xl font-black select-none pointer-events-none">40%</div>
         <div class="relative z-10 max-w-xl">
-          <h1 class="text-3xl md:text-5xl font-black leading-tight">NẠP GAME TỰ ĐỘNG 24/7</h1>
-          <p class="mt-3 font-semibold text-sm md:text-base">Đặt đơn, nạp ví và theo dõi lịch sử trực tiếp trên hệ thống.</p>
-          <button onclick="switchPage('shop')" class="mt-5 px-6 py-3 bg-slate-950 text-amber-400 font-black rounded-xl text-sm">NẠP GAME NGAY</button>
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-950 text-amber-400 font-bold text-xs rounded-full mb-3 shadow-lg">
+            <span class="animate-pulse">🔥</span> FLASH SALE - GIẢM ĐẾN 40% SO VỚI GIÁ GỐC
+          </div>
+          <h1 class="text-3xl md:text-5xl font-black leading-tight">NẠP GAME TỰ ĐỘNG GIÁ RẺ NHẤT THỊ TRƯỜNG</h1>
+          <p class="mt-3 font-semibold text-sm md:text-base text-slate-900">
+            Chiết khấu trực tiếp <span class="bg-slate-950 text-amber-400 px-2 py-0.5 rounded font-bold">40%</span> mọi gói nạp. Xử lý tự động trong 30s - Bảo hành 100% tài khoản.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="switchPage('shop')" class="px-6 py-3.5 bg-slate-950 hover:bg-slate-900 text-amber-400 font-black rounded-xl text-sm shadow-xl transition-all transform hover:scale-105">
+              NẠP GAME NGAY (-40%)
+            </button>
+            <button onclick="switchPage('deposit')" class="px-5 py-3.5 bg-slate-900/30 hover:bg-slate-900/40 text-slate-950 font-bold rounded-xl text-sm border border-slate-950/30">
+              NẠP VÍ TẶNG 10%
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-slate-900/80 border border-amber-500/30 p-4 rounded-2xl flex items-center gap-3">
+          <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-xl font-bold">💰</div>
+          <div>
+            <h4 class="font-bold text-white text-sm">Tiết Kiệm 40%</h4>
+            <p class="text-xs text-slate-400">Rẻ hơn nạp trực tiếp qua In-App</p>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 border border-emerald-500/30 p-4 rounded-2xl flex items-center gap-3">
+          <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center text-xl font-bold">⚡</div>
+          <div>
+            <h4 class="font-bold text-white text-sm">Xử Lý 30 Giây</h4>
+            <p class="text-xs text-slate-400">Hệ thống API nạp tự động 24/7</p>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 border border-blue-500/30 p-4 rounded-2xl flex items-center gap-3">
+          <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-xl font-bold">🛡️</div>
+          <div>
+            <h4 class="font-bold text-white text-sm">Bảo Hành 100%</h4>
+            <p class="text-xs text-slate-400">Nạp chính hãng bằng ID Game</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SHOP -->
+    <!-- SHOP PAGE -->
     <section id="page-shop" class="hidden space-y-6">
-      <div class="bg-slate-900 p-4 rounded-2xl border border-amber-500/20">
+      <div class="bg-slate-900 p-4 rounded-2xl border border-amber-500/20 flex justify-between items-center">
         <h2 class="text-lg font-bold text-amber-400"><i class="fa-solid fa-gamepad mr-2"></i>Shop Nạp Game</h2>
+        <span class="bg-red-600 text-white font-bold text-xs px-3 py-1 rounded-full animate-pulse">GIẢM 40% TẤT CẢ GÓI</span>
       </div>
 
       <form onsubmit="handleGameOrder(event)" class="space-y-6">
         <div>
           <label class="block text-sm font-bold text-slate-200 mb-2">1. Chọn Game</label>
-          <div id="game-selector-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+          <div id="game-selector-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
@@ -67,17 +108,17 @@
         </div>
 
         <div>
-          <label class="text-sm font-bold text-slate-200 mb-2 block">3. Chọn Gói Nạp</label>
+          <label class="text-sm font-bold text-slate-200 mb-2 block">3. Chọn Gói Nạp (Tiết kiệm 40%)</label>
           <div id="packages-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
         </div>
 
-        <button type="submit" id="buy-btn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm">
+        <button type="submit" id="buy-btn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm shadow-lg transition-all">
           THANH TOÁN BẰNG SỐ DƯ VÍ
         </button>
       </form>
     </section>
 
-    <!-- PROFILE -->
+    <!-- PROFILE PAGE -->
     <section id="page-profile" class="hidden space-y-6 max-w-4xl mx-auto">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-8 shadow-xl">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-5 gap-4">
@@ -116,7 +157,7 @@
       </div>
     </section>
 
-    <!-- AUTH -->
+    <!-- AUTH PAGE -->
     <section id="page-auth" class="hidden max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-5 my-4 shadow-2xl">
       <div class="flex border-b border-slate-800 mb-5">
         <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2 font-bold text-amber-400 border-b-2 border-amber-400 text-sm">Đăng Nhập</button>
@@ -136,7 +177,7 @@
       </form>
     </section>
 
-    <!-- DEPOSIT -->
+    <!-- DEPOSIT PAGE -->
     <section id="page-deposit" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
         <h3 class="text-base font-bold text-amber-400 mb-3">Chuyển Khoản Ngân Hàng</h3>
@@ -157,7 +198,7 @@
       </div>
     </section>
 
-    <!-- HISTORY -->
+    <!-- HISTORY PAGE -->
     <section id="page-history" class="hidden space-y-5">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
         <h3 class="text-base font-bold text-amber-400 mb-3">Lịch Sử Nạp Game</h3>
@@ -184,7 +225,7 @@
       </div>
     </section>
 
-    <!-- ADMIN -->
+    <!-- ADMIN PAGE -->
     <section id="page-admin" class="hidden space-y-6">
       <div class="flex justify-between items-center bg-purple-950/80 border border-purple-500/40 p-4 rounded-2xl">
         <h2 class="text-lg font-bold text-purple-200">BẢNG ĐIỀU KHIỂN ADMIN</h2>
@@ -228,6 +269,7 @@
 
   <div id="toast-container" class="fixed top-20 right-4 z-[200] space-y-2 max-w-[calc(100%-2rem)]"></div>
 
+  <!-- FIREBASE & LOGIC JS -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
   <script>
@@ -238,24 +280,47 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // Dữ liệu Game bao gồm Free Fire, Liên Quân, FC Online & Chiết khấu 40%
     const gamesData = [
       {
-        id:'ff', name:'Free Fire', icon:'🔥',
-        idLabel:'2. ID Nhân Vật Free Fire',
-        idPlaceholder:'Nhập ID Free Fire...',
-        packages:[
-          {name:'111 Kim Cương',price:20000},
-          {name:'280 Kim Cương',price:50000},
-          {name:'580 Kim Cương',price:100000}
+        id: 'ff', 
+        name: 'Free Fire', 
+        icon: '🔥',
+        idLabel: '2. ID Nhân Vật Free Fire',
+        idPlaceholder: 'Nhập ID Free Fire...',
+        packages: [
+          { name: '111 Kim Cương', price: 12000, originalPrice: 20000 },
+          { name: '280 Kim Cương', price: 30000, originalPrice: 50000 },
+          { name: '580 Kim Cương', price: 60000, originalPrice: 100000 },
+          { name: '1.180 Kim Cương', price: 120000, originalPrice: 200000 },
+          { name: 'Thẻ Tháng', price: 72000, originalPrice: 120000 }
         ]
       },
       {
-        id:'lq', name:'Liên Quân Mobile', icon:'⚔️',
-        idLabel:'2. OpenID Liên Quân',
-        idPlaceholder:'Nhập OpenID...',
-        packages:[
-          {name:'84 Quân Huy',price:20000},
-          {name:'210 Quân Huy',price:50000}
+        id: 'lq', 
+        name: 'Liên Quân Mobile', 
+        icon: '⚔️',
+        idLabel: '2. OpenID / ID Liên Quân',
+        idPlaceholder: 'Nhập OpenID...',
+        packages: [
+          { name: '84 Quân Huy', price: 12000, originalPrice: 20000 },
+          { name: '210 Quân Huy', price: 30000, originalPrice: 50000 },
+          { name: '425 Quân Huy', price: 60000, originalPrice: 100000 },
+          { name: '1.070 Quân Huy', price: 150000, originalPrice: 250000 }
+        ]
+      },
+      {
+        id: 'fco', 
+        name: 'FC Online', 
+        icon: '⚽',
+        idLabel: '2. UID / Tên Tài Khoản FC Online',
+        idPlaceholder: 'Nhập UID FC Online...',
+        packages: [
+          { name: '16 FC / MC', price: 12000, originalPrice: 20000 },
+          { name: '40 FC / MC', price: 30000, originalPrice: 50000 },
+          { name: '85 FC / MC', price: 60000, originalPrice: 100000 },
+          { name: '175 FC / MC', price: 120000, originalPrice: 200000 },
+          { name: '450 FC / MC', price: 300000, originalPrice: 500000 }
         ]
       }
     ];
@@ -298,7 +363,7 @@
       return true;
     }
 
-    // Realtime listeners + error handlers
+    // Realtime listeners
     db.ref('users').on('value', snap => {
       users = snap.val() || {};
       if (currentUser && users[currentUser.username]) {
@@ -391,9 +456,13 @@
     function renderPackages() {
       document.getElementById('packages-grid').innerHTML = selectedGame.packages.map((pkg, i) => `
         <button type="button" onclick="selectPackage(${i})"
-          class="text-left border ${pkg.name === selectedPackage.name ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900'} p-3 rounded-xl">
+          class="relative overflow-hidden text-left border ${pkg.name === selectedPackage.name ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900'} p-3.5 rounded-xl transition-all">
+          <span class="absolute top-0 right-0 bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-bl-lg">-40%</span>
           <p class="font-bold text-white text-xs">${esc(pkg.name)}</p>
-          <span class="text-sm font-bold text-emerald-400 font-mono mt-2 block">${money(pkg.price)}</span>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-sm font-bold text-emerald-400 font-mono">${money(pkg.price)}</span>
+            <span class="text-[11px] text-slate-500 line-through font-mono">${money(pkg.originalPrice)}</span>
+          </div>
         </button>
       `).join('');
     }
@@ -502,7 +571,6 @@
       btn.innerText = 'ĐANG TẠO ĐƠN...';
 
       try {
-        // Trừ tiền bằng transaction để tránh đọc/ghi sai số dư khi có nhiều thao tác.
         const balanceRef = db.ref('users/' + me.username + '/balance');
         const result = await balanceRef.transaction(balance => {
           balance = Number(balance || 0);
@@ -529,7 +597,6 @@
         try {
           await orderRef.set(order);
         } catch(writeErr) {
-          // Hoàn tiền nếu tạo đơn thất bại.
           await balanceRef.transaction(balance => Number(balance || 0) + price);
           throw writeErr;
         }
@@ -719,7 +786,6 @@
       if (!order || order.status !== 'Chờ xử lý') return;
 
       try {
-        // Hoàn tiền bằng transaction.
         await db.ref('users/' + order.user + '/balance')
           .transaction(balance => Number(balance || 0) + Number(order.price || 0));
 
@@ -749,7 +815,7 @@
       `;
     }
 
-    // Initial page
+    // Initial load
     if (currentUser && users[currentUser.username]?.role === 'admin') {
       switchPage('admin');
     } else if (currentUser) {
