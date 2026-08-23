@@ -41,7 +41,6 @@
   <main class="max-w-6xl mx-auto p-4 pb-6 flex-1 w-full">
     <!-- HOME PAGE -->
     <section id="page-home" class="space-y-6">
-      <!-- Banner Hero Flash Sale -->
       <div class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-amber-500 via-orange-600 to-red-600 p-6 md:p-10 text-slate-950 shadow-2xl">
         <div class="absolute -right-6 -bottom-6 text-slate-950/10 text-9xl font-black select-none pointer-events-none">40%</div>
         <div class="relative z-10 max-w-xl">
@@ -63,7 +62,6 @@
         </div>
       </div>
 
-      <!-- Feature Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="bg-slate-900/80 border border-amber-500/30 p-4 rounded-2xl flex items-center gap-3">
           <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-xl font-bold">💰</div>
@@ -280,7 +278,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Dữ liệu Game bao gồm Free Fire, Liên Quân, FC Online & Chiết khấu 40%
     const gamesData = [
       {
         id: 'ff', 
@@ -560,53 +557,66 @@
       if (!requireLogin()) return;
 
       const me = getMe();
+      if (!me) return toast('Vui lòng đăng nhập lại.', 'error');
+
       const gameId = document.getElementById('shop-gameid').value.trim();
       if (!gameId) return toast('Vui lòng nhập ID game.', 'error');
 
       const price = Number(selectedPackage.price);
-      if (Number(me.balance || 0) < price) return toast('Số dư ví không đủ!', 'error');
+      const currentBalance = Number(me.balance || 0);
+
+      if (currentBalance < price) {
+        return toast('Số dư ví không đủ! Vui lòng nạp thêm tiền.', 'error');
+      }
 
       const btn = document.getElementById('buy-btn');
       btn.disabled = true;
-      btn.innerText = 'ĐANG TẠO ĐƠN...';
+      btn.innerText = 'ĐANG XỬ LÝ...';
 
       try {
-        const balanceRef = db.ref('users/' + me.username + '/balance');
-        const result = await balanceRef.transaction(balance => {
-          balance = Number(balance || 0);
-          return balance >= price ? balance - price : undefined;
-        });
+        const newBalance = currentBalance - price;
 
-        if (!result.committed) {
-          throw new Error('Số dư đã thay đổi hoặc không đủ để thanh toán.');
-        }
+        // 1. Trừ tiền trực tiếp trên Firebase DB
+        await db.ref('users/' + me.username + '/balance').set(newBalance);
 
+        // 2. Cập nhật bộ nhớ tạm local để giao diện đổi số lập tức
+        if (users[me.username]) users[me.username].balance = newBalance;
+        if (currentUser) currentUser.balance = newBalance;
+        saveCurrentUser(currentUser);
+        updateUI();
+
+        // 3. Tạo đơn hàng mới trên Firebase
         const orderRef = db.ref('orders').push();
         const order = {
-          id:orderRef.key,
-          user:me.username,
-          game:selectedGame.name,
-          gameId:gameId,
-          package:selectedPackage.name,
-          price:price,
-          status:'Chờ xử lý',
-          date:new Date().toLocaleString('vi-VN'),
-          createdAt:Date.now()
+          id: orderRef.key,
+          user: me.username,
+          game: selectedGame.name,
+          gameId: gameId,
+          package: selectedPackage.name,
+          price: price,
+          status: 'Chờ xử lý',
+          date: new Date().toLocaleString('vi-VN'),
+          createdAt: Date.now()
         };
 
         try {
           await orderRef.set(order);
         } catch(writeErr) {
-          await balanceRef.transaction(balance => Number(balance || 0) + price);
+          // Hoàn tiền nếu tạo đơn lỗi
+          await db.ref('users/' + me.username + '/balance').set(currentBalance);
+          if (users[me.username]) users[me.username].balance = currentBalance;
+          if (currentUser) currentUser.balance = currentBalance;
+          saveCurrentUser(currentUser);
+          updateUI();
           throw writeErr;
         }
 
         document.getElementById('shop-gameid').value = '';
-        toast('Đã tạo đơn và gửi lên Admin thành công!', 'success');
+        toast('Mua thành công! Đã trừ ' + money(price) + ' trong ví.', 'success');
         switchPage('history');
       } catch(err) {
         console.error('ORDER ERROR:', err);
-        toast('Không gửi được đơn: ' + err.message, 'error');
+        toast('Thanh toán thất bại: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
         btn.innerText = 'THANH TOÁN BẰNG SỐ DƯ VÍ';
@@ -745,13 +755,12 @@
       if (!dep || dep.status !== 'Chờ duyệt') return;
 
       try {
-        const userRef = db.ref('users/' + dep.user);
-        const depRef = db.ref('deposits/' + id);
+        const targetUser = users[dep.user];
+        const currentBal = Number(targetUser?.balance || 0);
+        const newBal = currentBal + Number(dep.amount || 0);
 
-        const result = await userRef.child('balance').transaction(balance => Number(balance || 0) + Number(dep.amount || 0));
-        if (!result.committed) throw new Error('Không cập nhật được số dư.');
-
-        await depRef.child('status').set('Thành công');
+        await db.ref('users/' + dep.user + '/balance').set(newBal);
+        await db.ref('deposits/' + id + '/status').set('Thành công');
         toast('Đã duyệt nạp ví cho ' + dep.user, 'success');
       } catch(err) {
         console.error(err);
@@ -786,9 +795,11 @@
       if (!order || order.status !== 'Chờ xử lý') return;
 
       try {
-        await db.ref('users/' + order.user + '/balance')
-          .transaction(balance => Number(balance || 0) + Number(order.price || 0));
+        const targetUser = users[order.user];
+        const currentBal = Number(targetUser?.balance || 0);
+        const refundBal = currentBal + Number(order.price || 0);
 
+        await db.ref('users/' + order.user + '/balance').set(refundBal);
         await db.ref('orders/' + id + '/status').set('Thất bại');
         toast('Đã hủy đơn và hoàn tiền cho ' + order.user, 'success');
       } catch(err) {
